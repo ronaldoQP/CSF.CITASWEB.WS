@@ -1,0 +1,215 @@
+﻿.table {
+	/*color: #76838f;*/
+	color: #000;
+	max-width: none !important;
+	margin: 0;
+	clear: both;
+	border: 1px solid #e4eaec;
+	margin-bottom: 10px;
+}
+
+td, th {
+	padding: 0;
+}
+
+th {
+	text-align: left;
+}
+
+table td, table th {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+	padding: 8px;
+	line-height: 1.57142857;
+	/*vertical-align: top;*/
+	vertical-align: middle;
+	/*
+    border-top: 1px solid #e4eaec;
+    border: 1px solid #e4eaec;
+    */
+	border-left: 1px solid #e4eaec;
+	border-right: 1px solid #e4eaec;
+}
+
+.table > thead > tr > th {
+	vertical-align: bottom;
+	border-bottom: 2px solid #e4eaec;
+}
+
+.table > tfoot > tr > th, .table > thead > tr > th {
+	font-weight: bold;
+	/*font-weight: 400;*/
+	color: #526069;
+}
+
+.table > thead > tr > th {
+	border-bottom: 1px solid #e4eaec;
+}
+
+table thead > tr > th {
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+table thead .sorting, table thead .sorting_asc, table thead .sorting_asc_disabled, table thead .sorting_desc, table thead .sorting_desc_disabled {
+	position: relative;
+	padding-right: 16px;
+	cursor: pointer;
+}
+
+table th:active {
+	outline: 0;
+}
+
+.table > caption + thead > tr:first-child > td, .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > td, .table > thead:first-child > tr:first-child > th {
+	border-top: 0;
+	vertical-align: middle;
+}
+
+.table > tbody.disabled-background > tr:hover, .table > tbody.disabled-background > tr:nth-of-type(odd) {
+	background-color: initial !important;
+}
+
+.table > tbody.disabled-background > tr > th, .table > tbody.disabled-background > tr > td {
+	border-top: 1px solid #e4eaec;
+}
+
+
+.table > tbody > tr:hover {
+    /*background-color: #FFDF66 !important;*/
+    background-color: #00B0E2 !important;
+}
+
+.table > tbody > tr:nth-of-type(odd) {
+	background-color: #F5F5F5;
+}
+
+table thead .sorting_asc:after {
+	content: "\f0de";
+}
+
+table thead .sorting_desc:after {
+	content: "\f0dd";
+}
+
+table thead .sorting:after {
+	content: "\f0dc";
+}
+
+table thead .sorting:after, table thead .sorting_asc:after, table thead .sorting_desc:after {
+	position: absolute;
+	top: 8px;
+	right: 4px;
+	display: block;
+	font-family: 'Noto Sans', "FontAwesome" !important;
+	opacity: .5;
+}
+
+.lupa {
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: right 5px top;
+}
+
+.table-title {
+	color: #37474f;
+	font-weight: bold;
+}
+
+.pagination-pages {
+	display: inline-block;
+	padding: 10px 0px;
+}
+
+.pagination-button {
+	border: 1px solid #ccc;
+	padding: 6px 12px;
+	cursor: pointer;
+}
+
+	.pagination-button:hover {
+		background-color: lightgray;
+		color: #62a8ea;
+	}
+
+	.pagination-button.active {
+		/*border: #ccc;*/
+		color: white;
+		background-color: #62a8ea;
+	}
+
+.scroll-x {
+	overflow-x: auto;
+}
+
+.btn-export {
+	display: inline-block;
+	padding: 6px 10px 2px;
+	background: #46be8a;
+	color: white;
+	border-radius: 2px;
+	vertical-align: middle;
+	margin-bottom: 8px;
+}
+
+	.btn-export span {
+		margin-left: 5px;
+		cursor: pointer;
+	}
+
+	.btn-export i {
+		font-size: 18px;
+		color: #fff;
+	}
+
+.btn-add {
+	display: inline-block;
+	border-radius: 50%;
+	text-align: center;
+	padding-top: 10px;
+	margin-left: -8px;
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+	margin-bottom: 8px;
+	background-color: rgb(151,191,13);
+	box-shadow: -1px 5px 1px rgba(0, 0, 0, .075);
+}
+
+	.btn-add > i {
+		text-align: center;
+		font-size: 30px;
+		color: #fff;
+	}
+
+.btn-edit {
+	color: #004489;
+}
+
+.btn-delete {
+	color: #fc1921;
+}
+
+.btn-delete-table {
+	color: #fc1921;
+}
+
+.NoSelected {
+	background-color: #fff !important;
+}
+
+.tr50 {
+	height: 50px;
+}
+
+.no-border {
+	border: 0;
+}
+
+.table-layout {
+	table-layout: fixed;
+}

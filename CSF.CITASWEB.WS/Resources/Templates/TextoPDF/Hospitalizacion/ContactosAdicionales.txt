@@ -1,0 +1,35 @@
+﻿<table style="width:100%;border-collapse:collapse;margin-bottom:10px;">
+    <tr>
+        <td style="width:20%">
+            <img src="data:image/png;base64,@Logo" style="height:58px"/>
+        </td>
+        <td style="width:60%;text-align:center;font-weight:bold"></td>
+        <td style="width:20%;font-weight:bold;"><span style="display:none;">001 N°0036</span></td>
+    </tr>
+    <tr>
+    <td style="width:20%"></td>
+    <td style="width:60%;text-align:center;font-weight:bold;padding:20px 0px;">AUTORIZACIÓN PARA ENVÍO DE AVANCE DE CUENTA</td>
+    <td style="width:20%"></td>
+    </tr>
+</table>
+<div class="center" style='text-align:center;margin-bottom:15px;display:none;'>
+    <span style="color:#1c4ca5;text-decoration:underline" >AUTORIZACIÓN PARA ENVÍO DE PRE FACTURAS</span>
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="form-group">
+        <label class="col-20 col-sm-20 control-label" style="margin-bottom:15px">
+            <span>Por el presente documento autorizo a la Clínica San Felipe para que se envíe a las personas registradas en este documento, el
+avance de cuenta vía correo electrónico.</span>
+        </label>
+    </div>
+</div>
+<div >
+@Contactos
+</div>
+<div style="margin-top:30px;width:100%;">
+    <div class="form-group">
+        <label class="col-20 text-right">
+            <span>Fecha de aprobación: @FechaHoraActual</span>
+        </label>
+    </div>
+</div>

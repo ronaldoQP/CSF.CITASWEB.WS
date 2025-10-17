@@ -1,0 +1,1992 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>CSF WS</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        function parse_query_string(query) {
+            var vars = query.split("&");
+            var query_string = {};
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = decodeURIComponent(pair[1]);
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                    query_string[pair[0]] = arr;
+                } else {
+                    query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                }
+            }
+            return query_string;
+        }
+
+        $(document).ready(function () {
+            var query = window.location.search.substring(1);
+            var qs = parse_query_string(query);
+            if (qs.token) {
+                $('#txtToken').val(qs.token);
+            }
+            var today = new Date();
+            today.setDate(today.getDate() + 1);
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            var fecha = dd + '/' + mm + '/' + yyyy;
+            $('input[type=text]').each(function () {
+                $(this).val($(this).val().replace('#fecha#', fecha));
+            });
+        });
+
+        function EjecutarAjax(_url, _idServicio) {
+            $('#div' + _idServicio).html("Cargando...");
+            $('#div' + _idServicio).show();
+            var start_time;
+            let data = $('#' + _idServicio).val();
+            $.ajax({
+                type: "POST",
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", $('#txtToken').val());
+                    start_time = new Date().getTime();
+                },
+                url: _url,
+                data: data ? data : "{}",
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                dataType: "json",
+                timeout: 120000,//30000,
+                success: function (data, status, jqXHR) {
+                    $('#div' + _idServicio).html('<a href="" onclick="javascript:$(this).parent().hide();return false;">Cerrar</a><br/><br/>Tiempo total: ' + (new Date().getTime() - start_time) + 'ms<br/>URL:' + location.href.substring(0, location.href.lastIndexOf("/") + 1) + _url + '<br/><br/>Respuesta:<br/>' + JSON.stringify(data, null, '   '));
+                },
+                error: function (jqXHR, status) {
+                    $('#div' + _idServicio).html('Tiempo total: ' + (new Date().getTime() - start_time) + 'ms<br/>URL:' + location.href.substring(0, location.href.lastIndexOf("/") + 1) + _url + '<br/><br/>' + 'Error:<br/>' + JSON.stringify(jqXHR, null, '   '));
+                }
+            });
+            return false;
+        }
+    </script>
+    <style type="text/css">
+        body {
+            font-family: Calibri;
+        }
+
+        .metodo {
+            margin-bottom: 30px;
+        }
+
+            .metodo div {
+                width: 98%;
+                padding: 20px 1%;
+            }
+
+                .metodo div:nth-child(1) {
+                    background-color: #0043a5;
+                    display: inline-block;
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+
+                    .metodo div:nth-child(1) > a {
+                        color: #FFF;
+                    }
+
+                .metodo div:nth-child(2) {
+                    background-color: #CCC;
+                    display: inline-block;
+                }
+
+                    .metodo div:nth-child(2) input {
+                        width: 100%;
+                        height: 50px;
+                        border: 1px solid #00AA48;
+                    }
+
+            .metodo pre {
+                background-color: #EEE;
+                margin: 0;
+                padding: 10px;
+                display: none;
+            }
+
+        .separador {
+            width: 100%;
+            height: 30px;
+            display: inline-block;
+            border-top: 2px solid #000;
+        }
+
+        .hide {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding-bottom: 20px;">
+        <div style="display:inline-block">
+            Token:
+            <input type="text" id="txtToken" value='' style="width: 300px;" />
+        </div>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/Autenticar/','AutenticarUsuario');">
+                Autenticar [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AutenticarUsuario" value='{"tipoDocumento":"1","numeroDocumento":"00009948","password":"cd89a72a1c7bc6b2ef2fbad32d14bae9","tipoDispositivo":"android","imei":"1234567891","tokenPush":"tokenPush123","tokenPushHms":""}' />
+        </div>
+        <pre id="divAutenticarUsuario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/AutenticarMFA/','AutenticarMFA');">
+                AutenticarMFA
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AutenticarMFA" value='{"codigoAplicacion":"19","codigoEquipo":"12","so":"Windows","esReenvio":"1"}' />
+        </div>
+        <pre id="divAutenticarMFA"></pre>
+    </div>
+    <!--Parametrización-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/IniciarAplicacion/','IniciarAplicacion');">
+                IniciarAplicacion [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="IniciarAplicacion" value='{"tipoDispositivo":"android"}' />
+        </div>
+        <pre id="divIniciarAplicacion"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarParametros/','ConsultarParametros');">
+                ConsultarParametros [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarParametros" value='{}' />
+        </div>
+        <pre id="divConsultarParametros"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarSeguros/','ListarSeguros');">
+                ListarSeguros [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarSeguros" value='{}' />
+        </div>
+        <pre id="divListarSeguros"></pre>
+    </div>
+    <div class="metodo hide">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerTerminos/','ObtenerTerminos');">
+                ObtenerTerminos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerTerminos" value='{"tipo":"citavirtual-registro"}' />
+        </div>
+        <pre id="divObtenerTerminos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/DatosPorRuc/','DatosPorRuc');">
+                DatosPorRuc [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="DatosPorRuc" value='{"ruc":"20538856674"}' />
+        </div>
+        <pre id="divDatosPorRuc"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerIndicadorPopUpDrOnline/','ObtenerIndicadorPopUpDrOnline');">
+                ObtenerIndicadorPopUpDrOnline [Publico]
+            </a>
+        </div>
+        <pre id="divObtenerIndicadorPopUpDrOnline"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ValidarFuncionalidad/','ValidarFuncionalidad');">
+                ValidarFuncionalidad [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarFuncionalidad" value='{"dispositivo":"android","codigoFuncionalidad":"001"}' />
+        </div>
+        <pre id="divValidarFuncionalidad"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerIndicadorPopUpHome/','ObtenerIndicadorPopUpHome');">
+                ObtenerIndicadorPopUpHome [Publico]
+            </a>
+        </div>
+        <pre id="divObtenerIndicadorPopUpHome"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ParametrosRegistrarUsuario/','ParametrosRegistrarUsuario');">
+                ParametrosRegistrarUsuario [Publico]
+            </a>
+        </div>
+        <pre id="divParametrosRegistrarUsuario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarPaises/','ListarPaises');">
+                ListarPaises [Publico]
+            </a>
+        </div>
+        <pre id="divListarPaises"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarDepartamentos/','ListarDepartamentos');">
+                ListarDepartamentos [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarDepartamentos" value='{"idPais":"000"}' />
+        </div>
+        <pre id="divListarDepartamentos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarProvincias/','ListarProvincias');">
+                ListarProvincias [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarProvincias" value='{"idPais":"000","idDepartamento":"15"}' />
+        </div>
+        <pre id="divListarProvincias"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ListarDistritos/','ListarDistritos');">
+                ListarDistritos [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarDistritos" value='{"idPais":"000","idDepartamento":"15","idProvincia":"01"}' />
+        </div>
+        <pre id="divListarDistritos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerTexto/','ObtenerTexto');">
+                ObtenerTexto [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerTexto" value='{"codigo":"1"}' />
+        </div>
+        <pre id="divObtenerTexto"></pre>
+    </div>
+
+    <div class="separador">
+    </div>
+    <!--Usuarios-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ActualizarTokenPush/','ActualizarTokenPush');">
+                ActualizarTokenPush
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarTokenPush" value='{"tipoDocumento":"1","numeroDocumento":"45812984","tokenPush":"tokenPush555"}' />
+        </div>
+        <pre id="divActualizarTokenPush"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarExistenciaUsuario/','ValidarExistenciaUsuario');">
+                ValidarExistenciaUsuario [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarExistenciaUsuario" value='{"tipoDocumento":"1","numeroDocumento":"45812984"}' />
+        </div>
+        <pre id="divValidarExistenciaUsuario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarExistenciaUsuarioPaciente/','ValidarExistenciaUsuarioPaciente');">
+                ValidarExistenciaUsuarioPaciente [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarExistenciaUsuarioPaciente" value='{"data":"ImLRQma1KfBKEIbD5jIFog6ATXGfmKqlnlu8y8ET3Axp0+nHLA7mYBZGgIGTqzZ3ckPiUHYI9nl806tO0ClMisvN0BXzV9pnsjAs15eLBWFEpjEOerxemJ3QjLoVaLSI7tSOGOGrLoF9iTP5SFKOOGbVMNPqfAmogK/QpqGlOm388L5OL93nvQLlKcX1uDG8HFC8BfgTvHNPd/uwYgoErEC0GguaRK9/CVl/fBkhgFOQPdM/RvYfSOhJHeBVeFpeOJ7tMGqeoIwPq8HubQwJC5aKp7/fBMisd2alCx9jzccnpOaAv40mE3D83OopKqgg"}' />
+        </div>
+        <pre id="divValidarExistenciaUsuarioPaciente"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/RegistrarUsuario/','RegistrarUsuario');">
+                RegistrarUsuario [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarUsuario" value='{"tipoDocumento":"1","numeroDocumento":"45812984","nombres":"César","apellidoPaterno":"Bravo","apellidoMaterno":"Alvarado","genero":"M","fechaNacimiento":"22/02/1989","email":"cesarbravo999@hotmail.com","celular":"991421969","seguroPlanSalud":"20414955020","password":"998877","finalidadesAdiciona":"true","origen":"android","codigoOTP":"","finesAdicionales":"true"}' />
+        </div>
+        <pre id="divRegistrarUsuario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/RecordarPassword/','RecordarPassword');">
+                RecordarPassword [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RecordarPassword" value='{"tipoDocumento":"1","numeroDocumento":"45812984"}' />
+        </div>
+        <pre id="divRecordarPassword"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/RecordarPasswordDatos/','RecordarPasswordDatos');">
+                RecordarPasswordDatos [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RecordarPasswordDatos" value='{"tipoDocumento":"1","numeroDocumento":"45812984"}' />
+        </div>
+        <pre id="divRecordarPasswordDatos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/RecuperarPassword/','RecuperarPassword');">
+                RecuperarPassword [Publico]
+            </a>
+        </div>
+        <div>
+            <!--<input type="text" id="RecuperarPassword" value='{"tipoDocumento":"1","numeroDocumento":"45812984","metodo":"m"}' />-->
+            <input type="text" id="RecuperarPassword" value='{"tipoDocumento":"1","numeroDocumento":"48276635","correo":"gustavo.reque@softvan.com.pe","password":"","codigoOTP":"","tipoOTP":"recuperar-contrasenia","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divRecuperarPassword"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/CambiarPassword/','CambiarPassword');">
+                CambiarPassword
+            </a>
+        </div>
+        <div>
+            <input type="text" id="CambiarPassword" value='{"password":"1"}' />
+        </div>
+        <pre id="divCambiarPassword"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/CargarImagen/','CargarImagen');">
+                CargarImagen
+            </a>
+        </div>
+        <div>
+            <input type="text" id="CargarImagen" value='{"tipoDocumento":"1","numeroDocumento":"45812984","imagen":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAgAAAAIACH+pydAAAHN0lEQVRYw62Xa4xV1RXHf2vtvc89984MrTgINlFTG9P0WytqH5qmoVoRWopirSWIoqWCWOqjMU18pK1pv6gx/aA0PoqWVKyKQHlYq44ooHQGqK0vFBxmBtAKyCiMc+c+zl79cO9MLszgiOlKzs1ZH+5a//Nf67/2XmJmAIgIx2B+xd9Wr1DVqWaGiBBjXDN92venA9VPG8TMaj+DII7BWlasWmNZNbNyuWJZNbOVq9YY0HIsQcwMPdbMdUtjjAyUS3R2dTFQKRFjBEiPNZBvfF+2fOUK59xUA/hEUowYI8X+Ik6V4sdFzIxljz/24IwfXXIRtTIkhYXPl8jKj/Xfc/5MIBsNQF5Vp5515kQwEIFP7gph3fr1FItF0jTPOWd/nTe2bv4BkAcOAUll8yPnhTNmPlNY8PRx/fecP4UR+qMRQBpjBINNmzaResGr1Zkwav1Sc+ttS5MX8s0FyhmQRcQygObcgrYN2r/v98XFP95Ueen+iYWFz28pzF+7pH/RlFlHMtEIQGrNaLTkE2a1nUS+4NHgSNNAPnEUcko+CHmn5H0kVcUDM8ZsxWKsIYQmYtmk5YRH83MeXVBcfOnqcttdU5JJN65NZz74wMAjV7U1FviwJoxmWIwUUk9a8DQXHGOaHJ9vUsa0OFqaHC0FR3NeaE4dTTkheCFNPGaRWI9bWjT5J9muLbdKy/h70lkPfaP62uptsXfXYm099Vkg15jzcBWYkcWMxAecVzQ4kjQQ0kCS84ScJySeJHWERMklinNCEjyYsa1X4MqnFrtTzymWlv/yidi7a7GOPeWvQN/Aktl3AKSzHrq4Me9hALL6TEiSBHMOCQ6feFwaSNJAmg+keU8+5ymkgWKEA2Ujn8sRLdISDLIyYertO4EPBpbMvgsgf+Vj1wJ9VvxwnTSPmwOEEQFYvQQheMw5XPD4nCOXC1jw7K06tvcrL75vPN1dYt3uMuu7B8ingUSMU5qq8PAPbyYrdxXmP/UX4GDc+9bd0tR6PVC13p5nJClMomFeDAdgkPgATvBBQR17y7B7wNFrno+plSEknuAc3itNSeCaVR/w663NAB9mr668mZCeB1TjvndeRqQF0Kxny8v1VMnIAGKtBD4JIEo5Ch+WoSIKwUOSQPBEVaIoUYUMwSeBuyZ/jnXdOYDeyvp7Nw3GLD93R/tgj1fa/7xjaIiMIEPMIhngXaCvbFSK4EWgoohTcA6qhlUFKhBL0F81xAViNqSsMlAZTAqUGt4rHGFHADCIRnQp+276Akh9+hDBqmCV+ohUkAJIE6C8t2sPt7ft5/QTS2wFyV36x+8Mxkwm3XjSULIvf7cwKgATobN7Dz09+1BRjEhmZYYGmAhRhOg9poqaodUqv500gW2vvMV5kEjrafda8aMXAHEnT5yGxY8B8V+9+FujAhCEXCjw7Huz8ZrS9f4erjr97+w/8F9Uhe1vv8nXzv42p915NxYC7+54lb4/LKIiwn8OBJj7j5cQPa54//RrAWTMibfEfTvuBlSOO+lyGzi0noZJOJwBwHnHrr378ZoiCCEEurq6UFWc84QQeLdnGxYSBEGdw6IxIa1Auf+90hMLLwF681csnQ8wsHTufYBJ0nRu1v3PhfU+OQoDZkDGvLOeQ8VhRJCM7dvfRlX50hdPRrOM0r1/AlWIGa5cxgwKPoOHpy8w2JO/Yuk0GTPhtmz7up8DB/M/XXYLQGnlr9YCA0cFEDHEgWkFk8G6G3PmzEFEMYtUqxkaM4gRMGL97I7RAPbn5q29U5L8pdnuf91Weuo3a5Nzb5oghbHXZO9suJ7aUT2khmGDSAHvle7uLnp2dbPhxTa8Vzo7O9m5s5MXnn8O75Weri5293Sz8YU2vFPMoFKTomXVanP27qu/Kz15w1LgoP/K5PVW/Ghjac2tq+sA4tFlqIpzjo6ODpxzTBh3PM552tvbUVUmjDse7z0dHR2oKuPHjcU5hwClOmHVB6ZdWwUNZ17mwzfn7LaBvs3F+6fPAz5omAvDAcR6D6gIV1w+G1UlxkiMkctnX3ZUv1KpYDLEQAnoBbw/Y+ajVu7/d/G+afOB94/8+uEMRANqDLz+xps45+je+Q4XTJnKa6+/gaoO9zt38L3JFyAmZLULSRUoAmlx0QXzqV3ReuvPJ17JMIuIGs452tvbG0rgDitBoz++dSyqiqgMNuGgVYED9fcBjrIvjDgJRYR5V89F1Q1RfvXP5h5Wgka/VgI5cr+oAn2MYsMAqNUOnS1bX8E5T/fOHVx40Qw2b9mKqhvud25n2vQLEfSzLDjDATivqMmQCsa3jsU7R3tHB65OeaN/QutYnCqi/wcAALkkIYuRG66/DqnTGmPkhut+MbIfI1nMcOqOOfmRAOzQwYMbH39y+dmf5UtEhL5DhzYyyk417H8N23ELcDLQOhIzn8KqwH6gh5reR7X62TMEwFPTbMpoW9lR4lGTW5FPuaKbGf8DGEWE6iHeNDcAAABadEVYdGNvbW1lbnQAU2lnbmFsIGNlbGwgc291bmQgbW9iaWxlIGNhbGwgcmluZ3RvbmUgcGhvbmUgZnJvbSBJY29uIEdhbGxlcnkgaHR0cDovL2ljb25nYWwuY29tL9PBhXAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTEtMDgtMjFUMTQ6MTA6MTEtMDY6MDAbc8QXAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDExLTA4LTIxVDE0OjEwOjExLTA2OjAwai58qwAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAAASUVORK5CYII="}' />
+        </div>
+        <pre id="divCargarImagen"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/PruebaEmail/','PruebaEmail');">
+                PruebaEmail
+            </a>
+        </div>
+        <div>
+            <input type="text" id="PruebaEmail" value='{}' />
+        </div>
+        <pre id="divPruebaEmail"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/EncuestaPacienteCovid/','EncuestaPacienteCovid');">
+                EncuestaPacienteCovid
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EncuestaPacienteCovid" value='{"tipoDocumento":"1","numeroDocumento":"73051791"}' />
+        </div>
+        <pre id="divEncuestaPacienteCovid"></pre>
+    </div>
+    <div class="separador">
+    </div>
+    <!--Medicos Favoritos-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/RegistrarMedicoFavorito/','RegistrarMedicoFavorito');">
+                RegistrarMedicoFavorito
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarMedicoFavorito" value='{"tipoDocumento":"1","numeroDocumento":"48276635","cmp":"CMP-044514","idEspecialidad":"13"}' />
+        </div>
+        <pre id="divRegistrarMedicoFavorito"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ListarMedicosFavoritos/','ListarMedicosFavoritos');">
+                ListarMedicosFavoritos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarMedicosFavoritos" value='{"tipoDocumento":"1","numeroDocumento":"45812984"}' />
+        </div>
+        <pre id="divListarMedicosFavoritos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/EliminarMedicoFavorito/','EliminarMedicoFavorito');">
+                EliminarMedicoFavorito
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EliminarMedicoFavorito" value='{"idMedicoFavorito":"2"}' />
+        </div>
+        <pre id="divEliminarMedicoFavorito"></pre>
+    </div>
+    <div class="separador">
+    </div>
+    <!--Familiares-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/AgregarFamiliar/','AgregarFamiliar');">
+                AgregarFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AgregarFamiliar" value='{"tipoDocumento":"1","numeroDocumento":"40943284","tipoDocumentoTitular":"1","numeroDocumentoTitular":"45812984","nombres":"Ana","apellidoPaterno":"Bravo","apellidoMaterno":"Alvarado","genero":"F","fechaNacimiento":"01/02/1989","email":"cbravo@test.com","celular":"999888777","seguroPlanSalud":"20414955020","tipoParentesco":"PAD","origen":"PortalPaciente","codEstadoSolicitud":"2"}' />
+        </div>
+        <pre id="divAgregarFamiliar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ModificarFamiliar/','ModificarFamiliar');">
+                ModificarFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ModificarFamiliar" value='{"tipoDocumento":"1","numeroDocumento":"00009948","tipoDocumentoTitular":"1","numeroDocumentoTitular":"00009948","genero":"M","fechaNacimiento":"06/11/1949","email":"gustavo.reque@softvan.com.pe","celular":"986080491","seguroPlanSalud":"20414955020","tipoParentesco":"","nombres":"LUCIO","apellidoPaterno":"ANAYA","apellidoMaterno":"QUIROGA"}' />
+        </div>
+        <pre id="divModificarFamiliar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ConsultarFamiliar/','ConsultarFamiliar');">
+                ConsultarFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarFamiliar" value='{"tipoDocumentoTitular":"1","numeroDocumentoTitular":"45812984"}' />
+        </div>
+        <pre id="divConsultarFamiliar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/EliminarFamiliar/','EliminarFamiliar');">
+                EliminarFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EliminarFamiliar" value='{"tipoDocumento":"1","numeroDocumento":"40943284","tipoDocumentoTitular":"1","numeroDocumentoTitular":"45812984"}' />
+        </div>
+        <pre id="divEliminarFamiliar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/DatosUsuariosFamiliares/','DatosUsuariosFamiliares');">
+                DatosUsuariosFamiliares
+            </a>
+        </div>
+        <div>
+            <input type="text" id="DatosUsuariosFamiliares" value='{"tipoDocumento":"1","numeroDocumento":"73051791"}' />
+        </div>
+        <pre id="divDatosUsuariosFamiliares"></pre>
+    </div>
+    <div class="separador">
+    </div>
+    <!--Clínicas-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ListarClinicas/','ListarClinicas');">
+                ListarClinicas
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarClinicas" value='{}' />
+        </div>
+        <pre id="divListarClinicas"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ListarClinicasVirtuales/','ListarClinicasVirtuales');">
+                ListarClinicasVirtuales
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarClinicasVirtuales" value='{}' />
+        </div>
+        <pre id="divListarClinicasVirtuales"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ListarClinicasConDetalle/','ListarClinicasConDetalle');">
+                ListarClinicasConDetalle [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarClinicasConDetalle" value='{"ciudad":"Lima"}' />
+        </div>
+        <pre id="divListarClinicasConDetalle"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/EspecialidadPorClinica/','EspecialidadPorClinica');">
+                EspecialidadPorClinica
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EspecialidadPorClinica" value='{"idClinica":"2"}' />
+        </div>
+        <pre id="divEspecialidadPorClinica"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ClinicaPorEspecialidad/','ClinicaPorEspecialidad');">
+                ClinicaPorEspecialidad
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ClinicaPorEspecialidad" value='{"idEspecialidad":"3"}' />
+        </div>
+        <pre id="divClinicaPorEspecialidad"></pre>
+    </div>
+    <div class="separador">
+    </div>
+    <!--Médicos-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/InformacionMedico/','InformacionMedico');">
+                InformacionMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="InformacionMedico" value='{"cmp":"014898"}' />
+        </div>
+        <pre id="divInformacionMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorMedico/','HorariosPorMedico');">
+                HorariosPorMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorMedico" value='{"idClinica":"2","idEspecialidad":"3","tipoDocumento":"1","numeroDocumento":"45812984","dia":"#fecha#","nombre":"RIVERA"}' />
+        </div>
+        <pre id="divHorariosPorMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/PedirMedicoDomicilio/','PedirMedicoDomicilio');">
+                PedirMedicoDomicilio
+            </a>
+        </div>
+        <div>
+            <input type="text" id="PedirMedicoDomicilio" value='{"especialidad":"Pediatria","tipoDocumento":"1","numeroDocumento":"45812984","nombre":"César Bravo Alvarado","celular":"991421969","direccion":"Jr direccion 114, San Borja","latitud":"14.4123123","longitud":"12.123123"}' />
+        </div>
+        <pre id="divPedirMedicoDomicilio"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorNombreMedico/','HorariosPorNombreMedico');">
+                HorariosPorNombreMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorNombreMedico" value='{"idClinica":"8","idEspecialidad":"3","nombre":"","tipoDocumento":"1","numeroDocumento":"45812984","soloMedicosFavoritos":false}' />
+        </div>
+        <pre id="divHorariosPorNombreMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/FechasDisponiblesPorMedico/','FechasDisponiblesPorMedico');">
+                FechasDisponiblesPorMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="FechasDisponiblesPorMedico" value='{"idClinica":"8","idEspecialidad":"3","cmp":"10962"}' />
+        </div>
+        <pre id="divFechasDisponiblesPorMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/FechasDisponibles/','FechasDisponibles');">
+                FechasDisponibles
+            </a>
+        </div>
+        <div>
+            <input type="text" id="FechasDisponibles" value='{"idClinica":"8","idEspecialidad":"3"}' />
+        </div>
+        <pre id="divFechasDisponibles"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorMedicoVirtual/','HorariosPorMedicoVirtual');">
+                HorariosPorMedicoVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorMedicoVirtual" value='{"idClinica":"17","idEspecialidad":"124","tipoDocumento":"1","numeroDocumento":"45812984","dia":"#fecha#"}' />
+        </div>
+        <pre id="divHorariosPorMedicoVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorMedicoProximo/','HorariosPorMedicoProximo');">
+                HorariosPorMedicoProximo
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorMedicoProximo" value='{"idClinica":"17","idEspecialidad":"124","tipoDocumento":"1","numeroDocumento":"45812984","dia":"#fecha#","cmp":"12345","tipo":"virtual"}' />
+        </div>
+        <pre id="divHorariosPorMedicoProximo"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorMedicoProximoPresencial/','HorariosPorMedicoProximoPresencial');">
+                HorariosPorMedicoProximoPresencial
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorMedicoProximoPresencial" value='{"idClinica":"17","idEspecialidad":"124","tipoDocumento":"1","numeroDocumento":"45812984","dia":"#fecha#","cmp":"12345"}' />
+        </div>
+        <pre id="divHorariosPorMedicoProximoPresencial"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/BuscarMedicoWeb/','BuscarMedicoWeb');">
+                BuscarMedicoWeb
+            </a>
+        </div>
+        <div>
+            <input type="text" id="BuscarMedicoWeb" value='{"idClinica":"8","idEspecialidad":"3","nombre":""}' />
+        </div>
+        <pre id="divBuscarMedicoWeb"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/StaffMedicos/','StaffMedicos');">
+                StaffMedicos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="StaffMedicos" value='{"idClinica":"2","idEspecialidad":"2","nombre":""}' />
+        </div>
+        <pre id="divStaffMedicos"></pre>
+    </div>
+    <div class="separador">
+    </div>
+    <!--Citas-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarCita/','RegistrarCita');">
+                RegistrarCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarCita" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idHorarioDetalle":"380551|1","fecha":"#fecha#","numeroTurno":"1","origen":"app","observaciones":"ninguna","tipoCita":"1","esChequeo":"0"}' />
+        </div>
+        <pre id="divRegistrarCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarCitaAdicional/','RegistrarCitaAdicional');">
+                RegistrarCitaAdicional
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarCitaAdicional" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idHorarioDetalle":"380551|1","fecha":"#fecha#","horaInicio":"07:00","origen":"app","observaciones":"ninguna","esChequeo":"0"}' />
+        </div>
+        <pre id="divRegistrarCitaAdicional"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarCitas/','ListarCitas');">ListarCitas</a>
+        </div>
+        <div>
+            <input type="text" id="ListarCitas" value='{"tipoDocumento":"1","numeroDocumento":"10683847","año":"2023","origen":"Android","fechaCita":"","indicadorHistoricas":"1","indicadorPendientes":"1","soloTitular":false}' />
+        </div>
+        <pre id="divListarCitas"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ReprogramarCita/','ReprogramarCita');">
+                ReprogramarCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ReprogramarCita" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idCita":"1","idHorarioDetalle":"100|1","fecha":"#fecha#","numeroTurno":"2","origen":"app","observaciones":"ninguna","tipoCita":"1","esChequeo":"0"}' />
+        </div>
+        <pre id="divReprogramarCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/AnularCita/','AnularCita');">AnularCita</a>
+        </div>
+        <div>
+            <input type="text" id="AnularCita" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idCita":"1","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divAnularCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarCitaVirtual/','RegistrarCitaVirtual');">
+                RegistrarCitaVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarCitaVirtual" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idHorarioDetalle":"998877|4","fecha":"#fecha#","numeroTurno":"1","preguntaPaciente1":"Cuales son sus síntomas?","respuestaPaciente1":"tengo dolor general","preguntaPaciente2":"Otra pregunta?","respuestaPaciente2":"otra respuesta","origen":"web","tieneAlergia":"true","descripcionAlergia":"A la sulfa"}' />
+        </div>
+        <pre id="divRegistrarCitaVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarCitaVirtualAdicional/','RegistrarCitaVirtualAdicional');">
+                RegistrarCitaVirtualAdicional
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarCitaVirtualAdicional" value='{"tipoDocumento":"1", "numeroDocumento":"73051791", "idHorarioDetalle":"998877|4", "fecha":"2020-07-22", "preguntaPaciente1":"prgunta", "respuestaPaciente1":"respuesta","preguntaPaciente2":"pregnta2", "respuestaPaciente2":"respuesta2", "origen":"web","tieneAlergia":"true", "descripcionAlergia":"a la sulfa", "horaInicio":"13:30", "esChequeo":"true"}' />
+        </div>
+        <pre id="divRegistrarCitaVirtualAdicional"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/AnularCitaVirtual/','AnularCitaVirtual');">
+                AnularCitaVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AnularCitaVirtual" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idCitaVirtual":"1","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divAnularCitaVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ReprogramarCitaVirtual/','ReprogramarCitaVirtual');">
+                ReprogramarCitaVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ReprogramarCitaVirtual" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idCitaVirtual":"2","idHorarioDetalle":"998877|5","fecha":"#fecha#","numeroTurno":"1","preguntaPaciente1":"Cuales son sus síntomas (reprogramado)?","respuestaPaciente1":"tengo dolor general (reprogramado)","preguntaPaciente2":"Otra pregunta (reprogramado)?","respuestaPaciente2":"otra respuesta (reprogramado)","tieneAlergia":"true","descripcionAlergia":"A la penicilina"}' />
+        </div>
+        <pre id="divReprogramarCitaVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosPago/','ObtenerDatosPago');">
+                ObtenerDatosPago
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosPago" value='{"idCitaPresencial":"","idCita":"","canal":"web", "ruc":"20507264108", "idCobertura":""}' />
+        </div>
+        <pre id="divObtenerDatosPago"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistroPagoRoyal/','RegistroPagoRoyal');">
+                RegistroPagoRoyal
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistroPagoRoyal" value='{"idCita":"1","trajeta":"10101010","tipoTarjeta":"","tipo":"1"}' />
+        </div>
+        <pre id="divRegistroPagoRoyal"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistroPagoRoyalVirtual/','RegistroPagoRoyalVirtual');">
+                RegistroPagoRoyalVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistroPagoRoyalVirtual" value='{"idCita":"1","firma":""}' />
+        </div>
+        <pre id="divRegistroPagoRoyalVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/WebServiceTest/','WebServiceTest');">
+                WebServiceTest
+            </a>
+        </div>
+        <div>
+            <input type="text" id="WebServiceTest" value='{"idCita":"1"}' />
+        </div>
+        <pre id="divWebServiceTest"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarPagoCita/','RegistrarPagoCita');">
+                RegistrarPagoCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarPagoCita" value='{
+    "idCitaPresencial": "2328859",
+    "idCita": "",
+    "codigo": "000",
+    "mensaje": "test",
+    "fecha": "22/03/2023",
+    "hora": "17:49:00",
+    "purchaseNumber": 1,
+    "transactionID": "1",
+    "numeroTarjeta": "xxxx-xxxx-xxxx-1234",
+    "deseaBoleta": "false",
+    "ruc": "12345678901",
+    "razonSocial": "Empresa prueba",
+    "direccion": "Lima",
+    "origen": "Web",
+    "monto": "13.18",
+    "IDUnico": "14165",
+    "tokenEmail": "EmailToken",
+    "nombreVisa": "Gustavo",
+    "apellidoVisa": "Reque",
+    "firma": "",
+    "tipoTarjeta": "visa",
+    "tipoDocumentoBoleta": "",
+    "numeroDocumentoBoleta": "",
+    "nombresBoleta": "",
+    "apellidoPaternoBoleta": "",
+    "apellidoMaternoBoleta": "",
+    "direccionBoleta": "",
+    "fechaNacimientoBoleta": "",
+    "celularBoleta": "",
+    "emailBoleta": "",
+    "generoBoleta": "",
+    "RUCSeguro": "20431115825",
+    "codigoCobertura": "4100",
+    "origenMonto": "STDS",
+    "fechaPago": "",
+    "codigoProducto": "EPS",
+    "IAFAS": "20002",
+    "codigoParentesco": "1",
+    "codigoAfiliado": "2832460",
+    "tipoDocumentoContratante": "8",
+    "numeroDocumentoContratante": "20100017491",
+    "codigoTipoPago": "T",
+    "payMethod": "CARD"
+}' />
+        </div>
+        <pre id="divRegistrarPagoCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/AnularPagoCita/','AnularPagoCita');">
+                AnularPagoCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AnularPagoCita" value='{"idCita":"345433984","origen":"android"}' />
+        </div>
+        <pre id="divAnularPagoCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/IniciarCitaVirtual/','IniciarCitaVirtual');">
+                IniciarCitaVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="IniciarCitaVirtual" value='{"idCita":"1"}' />
+        </div>
+        <pre id="divIniciarCitaVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/IndicadorVideoLlamada/','IndicadorVideoLlamada');">
+                IndicadorVideoLlamada
+            </a>
+        </div>
+        <div>
+            <input type="text" id="IndicadorVideoLlamada" value='{"idCitaVirtual":"1"}' />
+        </div>
+        <pre id="divIndicadorVideoLlamada"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/EstadoChat/','EstadoChat');">
+                EstadoChat
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EstadoChat" value='{}' />
+        </div>
+        <pre id="divEstadoChat"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/PreguntasFrecuentes/','PreguntasFrecuentes');">
+                #PreguntasFrecuentes
+            </a>
+        </div>
+        <div>
+            <input type="text" id="PreguntasFrecuentes" value='{}' />
+        </div>
+        <pre id="divPreguntasFrecuentes"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/PreguntasTriaje/','PreguntasTriaje');">
+                #PreguntasTriaje
+            </a>
+        </div>
+        <div>
+            <input type="text" id="PreguntasTriaje" value='{"tipoDocumento":"1","numeroDocumento":"73051791"}' />
+        </div>
+        <pre id="divPreguntasTriaje"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RespuestasTriaje/','RespuestasTriaje');">
+                #RespuestasTriaje
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RespuestasTriaje" value='{"respuestas":[{"idPregunta":"1","respuesta":"true"}],"tipoDocumento":"1","numeroDocumento":"73051791","idEspecialidad":"1","cmp":"45679"}' />
+        </div>
+        <pre id="divRespuestasTriaje"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ConsultaSeguro/','ConsultaSeguro');">
+                #ConsultaSeguro
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultaSeguro" value='{"tipoDocumento":1,"numeroDocumento":"10683847","ruc":"20507264108","sunasa":"00018310","iafas":"20002","seguro":"Pacifico EPS"}' />
+        </div>
+        <pre id="divConsultaSeguro"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerResultados/','ObtenerResultados');">
+                #ObtenerResultados
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerResultados" value='{"tipoDocumento":1,"numeroDocumento":"10683847"}' />
+        </div>
+        <pre id="divObtenerResultados"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerResultadosDocumento/','ObtenerResultadosDocumento');">
+                #ObtenerResultadosDocumento
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerResultadosDocumento" value='{"peticion":"2020092601019"}' />
+        </div>
+        <pre id="divObtenerResultadosDocumento"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ConsultarFilaEspera/','ConsultarFilaEspera');">
+                #ConsultarFilaEspera
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarFilaEspera" value='{"idCitaPresencial":"322162904","idCitaVirtual":""}' />
+        </div>
+        <pre id="divConsultarFilaEspera"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/TurnosPorRangoHorario/', 'TurnosPorRangoHorario');">
+                TurnosPorRangoHorario [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="TurnosPorRangoHorario" value='{"fechaInicio":"01/01/2020 10:00:00","fechaFin":"01/01/2020 11:00:00"}' />
+        </div>
+        <pre id="divTurnosPorRangoHorario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ListarClinicasVirtuales/','ListarClinicasVirtuales');">
+                ListarClinicasVirtuales
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarClinicasVirtuales" value='{}' />
+        </div>
+        <pre id="divListarClinicasVirtuales"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/EspecialidadPorClinicaVirtual/','EspecialidadPorClinicaVirtual');">
+                EspecialidadPorClinicaVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EspecialidadPorClinicaVirtual" value='{"idClinica":"2"}' />
+        </div>
+        <pre id="divEspecialidadPorClinicaVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerTokenPagoIzipay/','ObtenerTokenPagoIzipay');">
+                ObtenerTokenPagoIzipay
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerTokenPagoIzipay" value='{"idCitaPresencial":"","idCita":"74","canal":"mobile","ruc":"20431115825","idCobertura":"4100","formTokenVersion":3,"monto":"110.00","origenMonto":"STDS","fechaPago":"","codigoProducto":"EPS","IAFAS":"20002","codigoParentesco":"1","codigoAfiliado":"25623","tipoDocumentoContratante":"1","numeroDocumentoContratante":"10256359685","deseaBoleta":"true","rucFactura":"","razonSocialFactura":"","direccionFactura":"","tipoDocumentoBoleta":"1","numeroDocumentoBoleta":"10683847","nombresBoleta":"ITALO","apellidoPaternoBoleta":"CAMPOSANO","apellidoMaternoBoleta":"MEZA","direccionBoleta":"N/A","fechaNacimientoBoleta":"16/07/1977","celularBoleta":"992101010","emailBoleta":"gustavo.reque@softvan.com.pe","origen":"PortalPaciente","tipoDocumentoUsuario":"1","numeroDocumentoUsuario":"10683847","tokenTarjeta":"c21eb8efe1f9e6289edcb4ca49f19738e40c7383a72ba7d8588544c0d2b52675","merchantBuyerId":"110683847"}' />
+        </div>
+        <pre id="divObtenerTokenPagoIzipay"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Horario.svc/ActualizarHorario/','ActualizarHorario');">
+                ActualizarHorario
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarHorario" value='    {"IDHorarioSpring":1000609,"CMP":"25386","FechaDesde":"\/Date(1629781200000)\/","FechaHasta":"\/Date(1630386000000)\/","HoraDesde":{"Ticks":288000000000,"Days":0,"Hours":8,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0.33333333333333331,"TotalHours":8,"TotalMilliseconds":28800000,"TotalMinutes":480,"TotalSeconds":28800},"HoraHasta":{"Ticks":828000000000,"Days":0,"Hours":23,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0.95833333333333326,"TotalHours":23,"TotalMilliseconds":82800000,"TotalMinutes":1380,"TotalSeconds":82800},"Dias":"LMXJVS_","ConsultorioId":0,"Consultorio":"","TiempoAtencion":30,"EstadoRegistro":"ACT","EspecialidadId":13,"EspecialidadNombre":"DERMATOLOGÍA","TipoEntidad":"MED","TipoHorario":1,"CantidadAdicional":0,"TipoHorarioVirtual":0,"IndicadorCompartido":false,"IDServicio":1,"EsPrePago":true,"Origen":"CitasWeb"}' />
+        </div>
+        <pre id="divActualizarHorario"></pre>
+    </div>
+
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosIzipaySDK/','ObtenerDatosIzipaySDK');">
+                ObtenerDatosIzipaySDK
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosIzipaySDK" value='{"idCitaPresencial":"", "idCita":"1", "canal":"mobile"}' />
+        </div>
+        <pre id="divObtenerDatosIzipaySDK"></pre>
+    </div>
+
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosIzipaySDKFarmacia/','ObtenerDatosIzipaySDKFarmacia');">
+                ObtenerDatosIzipaySDKFarmacia
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosIzipaySDKFarmacia" value='{"numeroPedido":"1","idClinica":"17","canal":"mobile"}' />
+        </div>
+        <pre id="divObtenerDatosIzipaySDKFarmacia"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerTokenPagoIzipayFarmacia/','ObtenerTokenPagoIzipayFarmacia');">
+                ObtenerTokenPagoIzipayFarmacia
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerTokenPagoIzipayFarmacia" value='{"numeroPedido":"1","tipoDocumento":"1","numeroDocumento":"48276635","monto":"1.00","correo":"gustavo.reque@softvan.com.pe","idClinica":"17","canal":"mobile","formTokenVersion":3}' />
+        </div>
+        <pre id="divObtenerTokenPagoIzipayFarmacia"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerRecetaMedica/','ObtenerRecetaMedica');">
+                ObtenerRecetaMedica
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerRecetaMedica" value='{"idCita":"29777708", "numeroOrden":"0002372823"}' />
+        </div>
+        <pre id="divObtenerRecetaMedica"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarExistenciaPaciente/','ValidarExistenciaPaciente');">
+                ValidarExistenciaPaciente [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarExistenciaPaciente" value='{"tipoDocumento":"1","numeroDocumento":"45812984"}' />
+        </div>
+        <pre id="divValidarExistenciaPaciente"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerProtocoloChequeoMedico/','ObtenerProtocoloChequeoMedico');">
+                ObtenerProtocoloChequeoMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerProtocoloChequeoMedico" value='{"tipoDocumento":"1","numeroDocumento":"10683847","clinicaId":"16"}' />
+        </div>
+        <pre id="divObtenerProtocoloChequeoMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/EnviarCorreoImagenes/','EnviarCorreoImagenes');">
+                EnviarCorreoImagenes
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EnviarCorreoImagenes" value='{"idCita":"29775843","archivoConsentimiento":"...","nombreArchivoConsentimiento":"Archivo de prueba.txt"}' />
+        </div>
+        <pre id="divEnviarCorreoImagenes"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/ListarMedicoHorarioPorEspecialidadEC/','ListarMedicoHorarioPorEspecialidadEC');">
+                ListarMedicoHorarioPorEspecialidadEC
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarMedicoHorarioPorEspecialidadEC" value='{"idEspecialidad":"3","tipoDocumento":"1","numeroDocumento":"45812984","dia":"#fecha#"}' />
+        </div>
+        <pre id="divListarMedicoHorarioPorEspecialidadEC"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ActualizarCorreoUsuario/','ActualizarCorreoUsuario');">
+                ActualizarCorreoUsuario
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarCorreoUsuario" value='{"tipoDocumento":"1","numeroDocumento":"40943284","email":"cbravo@test.com"}' />
+        </div>
+        <pre id="divActualizarCorreoUsuario"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/EspecialidadPorClinicaVirtualEC/','EspecialidadPorClinicaVirtualEC');">
+                EspecialidadPorClinicaVirtualEC
+            </a>
+        </div>
+        <pre id="divEspecialidadPorClinicaVirtualEC"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/FechasProximasPorMedico/','FechasProximasPorMedico');">
+                FechasProximasPorMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="FechasProximasPorMedico" value='{"idClinica":"16","idEspecialidad":"3","cmp":"50197","ejecucion":"2","registrosInicial":"3","registrosFinal":"5","tipoCita":"Virtual"}' />
+        </div>
+        <pre id="divFechasProximasPorMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/HorariosPorNombreMedicoVirtual/','HorariosPorNombreMedicoVirtual');">
+                HorariosPorNombreMedicoVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="HorariosPorNombreMedicoVirtual" value='{"idClinica":"","idEspecialidad":"8","nombre":"","tipoDocumento":"1","numeroDocumento":"48276635","soloMedicosFavoritos":false}' />
+        </div>
+        <pre id="divHorariosPorNombreMedicoVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/TipoCoberturaEspecialidadListar/','TipoCoberturaEspecialidadListar');">
+                TipoCoberturaEspecialidadListar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="TipoCoberturaEspecialidadListar" value='{"codigo":"10","rucSeguro":"20122794424"}' />
+        </div>
+        <pre id="divTipoCoberturaEspecialidadListar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarCitaApp/','RegistrarCitaApp');">
+                RegistrarCitaApp
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarCitaApp" value='{"tipoDocumento":"","numeroDocumento":"","idHorarioDetalle":"","fecha":"","numeroTurno":"","origen":"","observaciones":"","tipoCita":"","esChequeo":""}' />
+        </div>
+        <pre id="divRegistrarCitaApp"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/EspecialidadesFrecuentes/','EspecialidadesFrecuentes');">
+                EspecialidadesFrecuentes
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EspecialidadesFrecuentes" value='{"idClinica":"2","tipoDocumento":"1","numeroDocumento":"10683847","tipoCita":"P"}' />
+        </div>
+        <pre id="divEspecialidadesFrecuentes"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/EliminarCuenta/','EliminarCuenta');">
+                EliminarCuenta
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EliminarCuenta" value='{"tipoDocumento":"1","numeroDocumento":"76875984","origen":"android"}' />
+        </div>
+        <pre id="divEliminarCuenta"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/CrearCalendarioCita/','CrearCalendarioCita');">
+                CrearCalendarioCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="CrearCalendarioCita" value='{"nombreArchivo":"Cita_2145","fechaCreacion":"20220809T113000Z","asunto":"Cita Médica Sanna","fechaInicio":"20220809T113000","fechaFin":"20220809T123000","descripcion":""}' />
+        </div>
+        <pre id="divCrearCalendarioCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('ClinicasEspecialidades.svc/ClinicaEspecialidadAgrupado/','ClinicaEspecialidadAgrupado');">
+                ClinicaEspecialidadAgrupado
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ClinicaEspecialidadAgrupado" value='{"idClinica":"9","tipoCita":"Presencial"}' />
+        </div>
+        <pre id="divClinicaEspecialidadAgrupado"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ServicioInfoListar/','ServicioInfoListar');">
+                ServicioInfoListar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ServicioInfoListar" value='{"idClinica":"16"}' />
+        </div>
+        <pre id="divServicioInfoListar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/EnviarOTP/','EnviarOTP');">
+                EnviarOTP [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="EnviarOTP" value='{"tipoDocumento":"1","numeroDocumento":"48276635","correo":"gustavo.reque@softvan.com.pe","indicadorReenvio":false,"tipo":"registro"}' />
+        </div>
+        <pre id="divEnviarOTP"></pre>
+    </div>
+
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ActualizarOTP/','ActualizarOTP');">
+                ActualizarOTP [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarOTP" value='{"tipoDocumento":"1","numeroDocumento":"46798148","codigoOTP":"123"}' />
+        </div>
+        <pre id="divActualizarOTP"></pre>
+    </div>
+    <div class="metodo hide">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ReenviarOTP/','ReenviarOTP');">
+                ReenviarOTP
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ReenviarOTP" value='{"tipoDocumento":"1","numeroDocumento":"46798148"}' />
+        </div>
+        <pre id="divReenviarOTP"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ValidarOTP/','ValidarOTP');">
+                ValidarOTP [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarOTP" value='{"tipoDocumento":"1","numeroDocumento":"46798148","codigoOTP":"123","tipo":"registro"}' />
+        </div>
+        <pre id="divValidarOTP"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/CifrarClave/','CifrarClave');">
+                CifrarClave
+            </a>
+        </div>
+        <div>
+            <input type="text" id="CifrarClave" value='{"clave":"holamundo"}' />
+        </div>
+        <pre id="divCifrarClave"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ReprogramarCitaApp/','ReprogramarCitaApp');">
+                ReprogramarCitaApp
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ReprogramarCitaApp" value='{"tipoDocumento":"1","numeroDocumento":"45812984","idCita":"1","idHorarioDetalle":"100|1","fecha":"#fecha#","numeroTurno":"2","origen":"app","observaciones":"ninguna","tipoCita":"1","esChequeo":"0"}' />
+        </div>
+        <pre id="divReprogramarCitaApp"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosPorHorario/','ObtenerDatosPorHorario');">
+                ObtenerDatosPorHorario
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosPorHorario" value='{"idHorario":"","tipoAtencion":"2","esAdicional":false,"idServicioHorario":"1","esProcedimiento":false}' />
+        </div>
+        <pre id="divObtenerDatosPorHorario"></pre>
+    </div>
+
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/DatosPorDocumento/','DatosPorDocumento');">
+                DatosPorDocumento [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="DatosPorDocumento" value='{"tipoDocumento":"1","numeroDocumento":"48276635"}' />
+        </div>
+        <pre id="divDatosPorDocumento"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/ObtenerInformacionMedico/','ObtenerInformacionMedico');">
+                ObtenerInformacionMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerInformacionMedico" value='{"cmp":"014898","idEspecialidad":"1"}' />
+        </div>
+        <pre id="divObtenerInformacionMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ValidarAccionCita/','ValidarAccionCita');">
+                ValidarAccionCita
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarAccionCita" value='{"idCitaPresencial":"235659","idCita":"","tipoAccion":"ANU","origen":"Android"}' />
+        </div>
+        <pre id="divValidarAccionCita"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosVideollamada/','ObtenerDatosVideollamada');">
+                ObtenerDatosVideollamada [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosVideollamada" value='{"idCita":"23"}' />
+        </div>
+        <pre id="divObtenerDatosVideollamada"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/FechasDisponiblesVirtual/','FechasDisponiblesVirtual');">
+                FechasDisponiblesVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="FechasDisponiblesVirtual" value='{"idClinica":"","idEspecialidad":"3"}' />
+        </div>
+        <pre id="divFechasDisponiblesVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/FechasDisponiblesPorMedicoVirtual/','FechasDisponiblesPorMedicoVirtual');">
+                FechasDisponiblesPorMedicoVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="FechasDisponiblesPorMedicoVirtual" value='{"idClinica":"1","idEspecialidad":"8","cmp":"CMP-003171"}' />
+        </div>
+        <pre id="divFechasDisponiblesPorMedicoVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerParametrosHospitalizacion/','ObtenerParametrosHospitalizacion');">
+                ObtenerParametrosHospitalizacion [Publico]
+            </a>
+        </div>
+        <pre id="divObtenerParametrosHospitalizacion"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerDatosVideollamadaMedico/','ObtenerDatosVideollamadaMedico');">
+                ObtenerDatosVideollamadaMedico [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerDatosVideollamadaMedico" value='{"room_name":"9605402a-aa22-4b3b-b6c4-26ff48acf32a"}' />
+        </div>
+        <pre id="divObtenerDatosVideollamadaMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarNovedades/','ListarNovedades');">ListarNovedades</a>
+        </div>
+        <div>
+            <input type="text" id="ListarNovedades" value='{"tipoDocumento":"1","numeroDocumento":"10683847"}' />
+        </div>
+        <pre id="divListarNovedades"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerParametrosEnlaces/','ObtenerParametrosEnlaces');">
+                ObtenerParametrosEnlaces [Publico]
+            </a>
+        </div>
+        <pre id="divObtenerParametrosEnlaces"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/CrearTurnoPaciente/','CrearTurnoPaciente');">
+                CrearTurnoPaciente
+            </a>
+        </div>
+        <div>
+            <input type="text" id="CrearTurnoPaciente" value='{"idCitaPresencial":"274","idCitaVirtual":"","origen":"Android","origenBMatic":"EXT"}' />
+        </div>
+        <pre id="divCrearTurnoPaciente"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/DirectorioMedico/','DirectorioMedico');">
+                DirectorioMedico
+            </a>
+        </div>
+        <div>
+            <input type="text" id="DirectorioMedico" value='{"idClinica":"","idEspecialidad":"","nombre":"","tipoDocumento":"1","numeroDocumento":"48276635","soloMedicosFavoritos":false}' />
+        </div>
+        <pre id="divDirectorioMedico"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Medico.svc/DirectorioMedicoVirtual/','DirectorioMedicoVirtual');">
+                DirectorioMedicoVirtual
+            </a>
+        </div>
+        <div>
+            <input type="text" id="DirectorioMedicoVirtual" value='{"idEspecialidad":"","nombre":"","tipoDocumento":"1","numeroDocumento":"48276635","soloMedicosFavoritos":false}' />
+        </div>
+        <pre id="divDirectorioMedicoVirtual"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarOpcionesPago/','ListarOpcionesPago');">
+                ListarOpcionesPago
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarOpcionesPago" value='{"tipoDocumento":"1","numeroDocumento":"41545973","idCitaPresencial":"906","idCitaVirtual":"","tipoPaciente":"3","requierePasarela":"1"}' />
+        </div>
+        <pre id="divListarOpcionesPago"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerDisponibilidadWS/','ObtenerDisponibilidadWS');">
+                ObtenerDisponibilidadWS [Publico]
+            </a>
+        </div>
+        <pre id="divObtenerDisponibilidadWS"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarRoomSid/','RegistrarRoomSid');">
+                RegistrarRoomSid [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarRoomSid" value='{"idCitaVirtual":"116","origen":"Android","room_sid":"RMdb93d4d188e8e6689e7d90aa37bc0c25","esMedico":false}' />
+        </div>
+        <pre id="divRegistrarRoomSid"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ConsultaVideollamadaPendiente/','ConsultaVideollamadaPendiente');">
+                ConsultaVideollamadaPendiente [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultaVideollamadaPendiente" value='{"type":"composition","status":"1"}' />
+        </div>
+        <pre id="divConsultaVideollamadaPendiente"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ActualizarEstadoVideollamada/','ActualizarEstadoVideollamada');">
+                ActualizarEstadoVideollamada [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarEstadoVideollamada" value='{"type":"composition","status":"1","room_name":"ba347964-0d27-4a49-b3b6-9a2940414262","twillio_room_sid":[{"room_sid":"RMdb93d4d188e8e6689e7d90aa37bc0c25","duracion":60},{"room_sid":"RMa19aff6fc67e6e23667b3b6d5c24302e","duracion":120}]}' />
+        </div>
+        <pre id="divActualizarEstadoVideollamada"></pre>
+    </div>
+
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerContenido/','ObtenerContenido');">
+                ObtenerContenido [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerContenido" value='{"codigo":"paciente-particular"}' />
+        </div>
+        <pre id="divObtenerContenido"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarQR/','ListarQR');">
+                ListarQR
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarQR" value='{"tipoDocumento":"1","numeroDocumento":"41545973"}' />
+        </div>
+        <pre id="divListarQR"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerReporte/','ObtenerReporte');">
+                ObtenerReporte
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerReporte" value='{"tipoDocumento":"1","numeroDocumento":"08147665","codigoAtencion":"A5561048","codigoPaciente":"","tipoReporte":"PQ","codigoCpt":"47562"}' />
+        </div>
+        <pre id="divObtenerReporte"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerFlyer/','ObtenerFlyer');">
+                ObtenerFlyer
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerFlyer" value='{"idCita":"100168","idCitaVirtual":""}' />
+        </div>
+        <pre id="divObtenerFlyer"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ActualizarEstado/','ActualizarEstado');">
+                ActualizarEstado
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarEstado" value='{"tipoDocumento":"1","numeroDocumento":"48276635","idCita":"","idCitaVirtual":"145","origen":"WhatsApp"}' />
+        </div>
+        <pre id="divActualizarEstado"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerPorId/','ObtenerPorId');">
+                ObtenerPorId
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerPorId" value='{"tipoDocumento":"1","numeroDocumento":"10683847","idCita":"","idCitaVirtual":"145"}' />
+        </div>
+        <pre id="divObtenerPorId"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarMedicamentos/','ConsultarMedicamentos');">
+                ConsultarMedicamentos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarMedicamentos" value='{"tipoDocumento":"1","numeroDocumento":"21444346","descripcion":""}' />
+        </div>
+        <pre id="divConsultarMedicamentos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarMedicacionItems/','ConsultarMedicacionItems');">
+                ConsultarMedicacionItems
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarMedicacionItems" value='{"tipoDocumento":"1","numeroDocumento":"21444346","orden":"1"}' />
+        </div>
+        <pre id="divConsultarMedicacionItems"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarDatosHospitalizacion/','ConsultarDatosHospitalizacion');">
+                ConsultarDatosHospitalizacion
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarDatosHospitalizacion" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035"}' />
+        </div>
+        <pre id="divConsultarDatosHospitalizacion"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarAlergiasMedicacionRiesgoCasa/','ConsultarAlergiasMedicacionRiesgoCasa');">
+                ConsultarAlergiasMedicacionRiesgoCasa
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarAlergiasMedicacionRiesgoCasa" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081"}' />
+        </div>
+        <pre id="divConsultarAlergiasMedicacionRiesgoCasa"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/GrabarAlergiasMedicacionRiesgoCasa/','GrabarAlergiasMedicacionRiesgoCasa');">
+                GrabarAlergiasMedicacionRiesgoCasa
+            </a>
+        </div>
+        <div>
+            <input type="text" id="GrabarAlergiasMedicacionRiesgoCasa" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081","indAlergia":"S","hospitalizado":"","representante":"","habitacion":"","medicamentos":[{"IdeAlergiaMedicamentosDet":"0","Codigo":"00000002","Descripcion":"DIAZEPAM"},{"IdeAlergiaMedicamentosDet":"0","Codigo":"00000004","Descripcion":"RANITIDINA"},{"IdeAlergiaMedicamentosDet":"0","Codigo":"00000005","Descripcion":"TRETINOINA"}],"alimentos":"Nueces","otros":"Chocolate","medicamentosRiesgos":[{"IdeMedicacionDet":"0","Codigo":"1","Indicador":"N","DscItem":"Anticoagulantes o Antiagregantes en la última semana.","DscSubItem":"Ej: Warfarina, Aspirina o medicina para el dolor que contenga aspirina."},{"IdeMedicacionDet":"0","Codigo":"2","Indicador":"S","DscItem":"AINEs (antiinflamatorios) en las últimas 2 semanas de manera continuada.","DscSubItem":"Ej: Diclofenaco, Ibuprofeno, Ketorolaco, Aspirina."},{"IdeMedicacionDet":"0","Codigo":"3","Indicador":"N","DscItem":"Medicina para el Parkinson.","DscSubItem":"Ej: Levodopa."},{"IdeMedicacionDet":"0","Codigo":"4","Indicador":"S","DscItem":"Medicamentos que bajan la glucosa o para la Diabetes en el último día.","DscSubItem":"Ej: Insulina, Gilbenclamida, Metformina, etc."},{"IdeMedicacionDet":"0","Codigo":"5","Indicador":"N","DscItem":"Corticoides via oral de manera continuada.","DscSubItem":"Ej: Prednisona, Metilprednisolona."},{"IdeMedicacionDet":"0","Codigo":"6","Indicador":"S","DscItem":"Biológicos o inmunomoduladores en el último año","DscSubItem":"Ej: Rituximab, Infliximab, Etanercept."},{"IdeMedicacionDet":"0","Codigo":"7","Indicador":"N","DscItem":"Quimioterapia/Radioterapida ","DscSubItem":"En el último mes."}],"accion":"I","idRegistro":"0","respEnvio":"","codTipoDocumentoPaciente":"0","desTipoDocumentoPaciente":"DNI","numeroDocumentoPaciente":"21444346","nombresPaciente":"ADAN","apellidoPaternoPaciente":"GUTIERREZ","apellidoMaternoPaciente":"GOMEZ"}' />
+        </div>
+        <pre id="divGrabarAlergiasMedicacionRiesgoCasa"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarDocumentoAdmisionTerminos/','ConsultarDocumentoAdmisionTerminos');">
+                ConsultarDocumentoAdmisionTerminos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarDocumentoAdmisionTerminos" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081"}' />
+        </div>
+        <pre id="divConsultarDocumentoAdmisionTerminos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/GrabarDocumentoAdmisionTerminos/','GrabarDocumentoAdmisionTerminos');">
+                GrabarDocumentoAdmisionTerminos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="GrabarDocumentoAdmisionTerminos" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081","indTerminosAdmision":"S","dscTexto":"","dscRpta":"","opciones":[{"codigoRegistro":"01","codigoBoton":"S"},{"codigoRegistro":"02","codigoBoton":"N"}],"accion":"I","idRegistro":"0","responsableEnvio":"","codTipoDocumentoPaciente":"0","desTipoDocumentoPaciente":"DNI","numeroDocumentoPaciente":"21444346","nombresPaciente":"ADAN","apellidoPaternoPaciente":"GUTIERREZ","apellidoMaternoPaciente":"GOMEZ"}' />
+        </div>
+        <pre id="divGrabarDocumentoAdmisionTerminos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/ConsultarContactosAutorizadosPreFacturas/','ConsultarContactosAutorizadosPreFacturas');">
+                ConsultarContactosAutorizadosPreFacturas
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConsultarContactosAutorizadosPreFacturas" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081"}' />
+        </div>
+        <pre id="divConsultarContactosAutorizadosPreFacturas"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Hospitalizacion.svc/GrabarContactosAutorizadosPreFacturas/','GrabarContactosAutorizadosPreFacturas');">
+                GrabarContactosAutorizadosPreFacturas
+            </a>
+        </div>
+        <div>
+            <input type="text" id="GrabarContactosAutorizadosPreFacturas" value='{"tipoDocumento":"1","numeroDocumento":"21444346","idAmbulatorio":"751035","codAtencion":"I0036081","personas":[{"idRegistroDet":"0","codTipoDocumento":"0","desTipoDocumento":"DNI","numeroDocumento":"21444346","apellidoPaterno":"GUTIERREZ","apellidoMaterno":"GOMEZ","nombres":"ADAN","correo":"gustavo.reque@softvan.com.pe","celular":"929818514","codParentesco":"O","desParentesco":"OTRO","nro_orden":"1","flg_copia":"0"},{"idRegistroDet":"0","codTipoDocumento":"0","desTipoDocumento":"DNI","numeroDocumento":"21444346","apellidoPaterno":"GUTIERREZ","apellidoMaterno":"GOMEZ","nombres":"ADAN","correo":"gustavo.reque@softvan.com.pe","celular":"929818514","codParentesco":"O","desParentesco":"OTRO","nro_orden":"2","flg_copia":"1"},{"idRegistroDet":"0","codTipoDocumento":"0","desTipoDocumento":"DNI","numeroDocumento":"48276635","apellidoPaterno":"REQUE","apellidoMaterno":"LIPA","nombres":"GUSTAVO","correo":"gustavo.reque@softvan.com.pe","celular":"929818514","codParentesco":"O","desParentesco":"OTRO","nro_orden":"3","flg_copia":"0"}],"accion":"I","idRegistro":"0","responsableEnvio":"","codTipoDocumentoPaciente":"0","desTipoDocumentoPaciente":"DNI","numeroDocumentoPaciente":"21444346","nombresPaciente":"ADAN","apellidoPaternoPaciente":"GUTIERREZ","apellidoMaternoPaciente":"GOMEZ"}' />
+        </div>
+        <pre id="divGrabarContactosAutorizadosPreFacturas"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerPeriodos/','ObtenerPeriodos');">
+                ObtenerPeriodos
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerPeriodos" value='{"tipoDocumento":"1","numeroDocumento":"10683847","idAmbulatorio":"111111"}' />
+        </div>
+        <pre id="divObtenerPeriodos"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarImagenes/','ListarImagenes');">
+                ListarImagenes
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarImagenes" value='{"data":"2025-01-05 12:06:00.100|1|10683847|235085|2024"}' />
+        </div>
+        <pre id="divListarImagenes"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerResultadosImagenes/','ObtenerResultadosImagenes');">
+                ObtenerResultadosImagenes
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerResultadosImagenes" value='{"data":"2025-01-05 12:06:00.100|1|10683847|235085|H02021231343"}' />
+        </div>
+        <pre id="divObtenerResultadosImagenes"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerVueMotion/','ObtenerVueMotion');">
+                ObtenerVueMotion
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerVueMotion" value='{"data":"2025-01-05 12:06:00.100|1|10683847|235085|9275009301667|759449"}' />
+        </div>
+        <pre id="divObtenerVueMotion"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarResultadosLaboratorio/','ListarResultadosLaboratorio');">
+                ListarResultadosLaboratorio
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarResultadosLaboratorio" value='{"tipoDocumento":"1","numeroDocumento":"10683847","tipoDocumentoPaciente":"1","numeroDocumentoPaciente":"45866959","periodo":"2023"}' />
+        </div>
+        <pre id="divListarResultadosLaboratorio"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerResultadoLaboratorio/','ObtenerResultadoLaboratorio');">
+                ObtenerResultadoLaboratorio
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerResultadoLaboratorio" value='{"tipoDocumento":"1","numeroDocumento":"10683847","ordenAtencion":"301944987"}' />
+        </div>
+        <pre id="divObtenerResultadoLaboratorio"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerHistoricoLaboratorio/','ObtenerHistoricoLaboratorio');">
+                ObtenerHistoricoLaboratorio
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerHistoricoLaboratorio" value='{"tipoDocumento":"1","numeroDocumento":"10683847","ordenAtencion":"301944987"}' />
+        </div>
+        <pre id="divObtenerHistoricoLaboratorio"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Procedimiento.svc/ListarCpt/','ListarCpt');">
+                ListarCpt
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarCpt" value='{"tipoDocumento":"1","numeroDocumento":"10683847"}' />
+        </div>
+        <pre id="divListarCpt"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Procedimiento.svc/ListarAnestesiologo/','ListarAnestesiologo');">
+                ListarAnestesiologo
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarAnestesiologo" value='{"tipoDocumento":"1","numeroDocumento":"10683847"}' />
+        </div>
+        <pre id="divListarAnestesiologo"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Procedimiento.svc/RegistrarProcedimiento/','RegistrarProcedimiento');">
+                RegistrarProcedimiento [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarProcedimiento" value='{"tipoDocumento":"1","numeroDocumento":"48276635","idClinica":"2","codMedico":"CMP-000459","idSubespecialidad":"8","idServicio":"2","codAtencion":"A5561048","codTipoPaciente":"1","fecha":"08/07/2024","horaInicio":"09:00","horaFin":"09:40","duracion":"40","codCpt":"62270","cpt":"PUNCION LUMBAR, DIAGNOSTICA","codSegus":"001170912","segus":"PUNCION LUMBAR","guarismo":"3","rucSeguro":"20431115825","iafas":"20002","flgCartaGarantia":false,"cartaGarantia":null,"flgPresupuesto":true,"presupuesto":"999.99","celular":"929818514","flgAlergia":false,"coaseguro":"10.5","correo":"gustavo.reque@softvan.com.pe","observacion":"Observación de prueba","origen":"HCE","codEstado":"1","idOrdenDetalle":"1","totalSesiones":""}' />
+        </div>
+        <pre id="divRegistrarProcedimiento"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Procedimiento.svc/ActualizarProcedimiento/','ActualizarProcedimiento');">
+                ActualizarProcedimiento [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarProcedimiento" value='{"tipoDocumento":"1","numeroDocumento":"48276635","idOrdenDetalle":"1","codCpt":"61050","cpt":"PUNCION CISTERNAL O CERVICAL LATERAL (C1-C2) SIN INYECCION (PROCEDIMIENTO SEPARADO)","codSegus":"001170912","segus":"PUNCION LUMBAR","guarismo":"3","origen":"HCE"}' />
+        </div>
+        <pre id="divActualizarProcedimiento"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Procedimiento.svc/AnularProcedimiento/','AnularProcedimiento');">
+                AnularProcedimiento [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="AnularProcedimiento" value='{"tipoDocumento":"1","numeroDocumento":"48276635","idOrdenDetalle":"1","origen":"HCE"}' />
+        </div>
+        <pre id="divAnularProcedimiento"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Parametrizacion.svc/ObtenerParametroSeguridad/','ObtenerParametroSeguridad');">
+                ObtenerParametroSeguridad [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerParametroSeguridad" value='{"tipoRegistro":"2"}' />
+        </div>
+        <pre id="divObtenerParametroSeguridad"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarClave/','ValidarClave');">
+                ValidarClave [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarClave" value='{"data":"1|11111111|12345678|26/12/2024 22:00:05"}' />
+        </div>
+        <pre id="divValidarClave"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarDeuda/','ValidarDeuda');">
+                ValidarDeuda
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarDeuda" value='{"tipoDocumento":"1","numeroDocumento":"10683847","tipoDocumentoPaciente":"1","numeroDocumentoPaciente":"07952350","origen":"Web"}' />
+        </div>
+        <pre id="divValidarDeuda"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ObtenerTokenIzipay/','ObtenerTokenIzipay');">
+                ObtenerTokenIzipay
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ObtenerTokenIzipay" value='{"tipoDocumento":"1","numeroDocumento":"10683847","origen":"PortalPaciente","idCita":"","idCitaVirtual":""}' />
+        </div>
+        <pre id="divObtenerTokenIzipay"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarTarjetas/','ListarTarjetas');">
+                ListarTarjetas
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarTarjetas" value='{"tipoDocumento":"1","numeroDocumento":"10683847"}' />
+        </div>
+        <pre id="divListarTarjetas"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/RegistrarTarjeta/','RegistrarTarjeta');">
+                RegistrarTarjeta
+            </a>
+        </div>
+        <div>
+            <input type="text" id="RegistrarTarjeta" value='{"tipoDocumento":"1","numeroDocumento":"10683847","numeroTarjeta":"497010******0055","tokenTarjeta":"c21eb8efe1f9e6289edcb4ca49f19738e40c7383a72ba7d8588544c0d2b52675","tipoTarjeta":"VS","nombres":"Gustavo Eduardo","apellidos":"Reque Lipa","correo":"gustavo.reque@softvan.com.pe","merchantBuyerId":"110683847","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divRegistrarTarjeta"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ActualizarEstadoTarjeta/','ActualizarEstadoTarjeta');">
+                ActualizarEstadoTarjeta
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ActualizarEstadoTarjeta" value='{"tipoDocumento":"1","numeroDocumento":"10683847","idUsuarioTarjeta":"1","codigoEstado":"ANU","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divActualizarEstadoTarjeta"></pre>
+    </div>
+    <!--<div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Cita.svc/ListarOpcionesPagoV2/','ListarOpcionesPagoV2');">
+                ListarOpcionesPagoV2
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ListarOpcionesPagoV2" value='{"tipoDocumento":"1","numeroDocumento":"41545973","idCitaPresencial":"906","idCitaVirtual":"","tipoPaciente":"3"}' />
+        </div>
+        <pre id="divListarOpcionesPagoV2"></pre>
+    </div>-->
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarDocumentoPersona/','ValidarDocumentoPersona');">
+                ValidarDocumentoPersona [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarDocumentoPersona" value='{"tipoDocumento":"1","numeroDocumento":"10683847","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divValidarDocumentoPersona"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarRegistroPersona/','ValidarRegistroPersona');">
+                ValidarRegistroPersona [Publico]
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarRegistroPersona" value='{"tipoDocumento":"1","numeroDocumento":"15461614","nombres":"ADRIAN","apellidoPaterno":"VALDERRAMA","apellidoMaterno":"SUAREZ","genero":"M","fechaNacimiento":"25/05/1995","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divValidarRegistroPersona"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarPersonaSiteds/','ValidarPersonaSiteds');">
+                ValidarPersonaSiteds
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarPersonaSiteds" value='{"tipoDocumentoTitular":"1","numeroDocumentoTitular":"10683847","tipoDocumento":"1","numeroDocumento":"15461614","nombres":"ADRIAN","apellidoPaterno":"VALDERRAMA","apellidoMaterno":"SUAREZ","codigoTipoParentesco":"O","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divValidarPersonaSiteds"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ValidarDocumentoFamiliar/','ValidarDocumentoFamiliar');">
+                ValidarDocumentoFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ValidarDocumentoFamiliar" value='{"tipoDocumentoTitular":"1","numeroDocumentoTitular":"10683847","tipoDocumento":"1","numeroDocumento":"15461614","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divValidarDocumentoFamiliar"></pre>
+    </div>
+    <div class="metodo">
+        <div>
+            <a href="" onclick="return EjecutarAjax('Usuario.svc/ConfirmarParentescoFamiliar/','ConfirmarParentescoFamiliar');">
+                ConfirmarParentescoFamiliar
+            </a>
+        </div>
+        <div>
+            <input type="text" id="ConfirmarParentescoFamiliar" value='{"tipoDocumentoTitular":"1","numeroDocumentoTitular":"10683847","tipoDocumento":"1","numeroDocumento":"15461614","origen":"PortalPaciente"}' />
+        </div>
+        <pre id="divConfirmarParentescoFamiliar"></pre>
+    </div>
+
+    <input type="hidden" id="hdf_SE_UrlBase" value='' />
+    <input type="hidden" id="hdf_SE_Token" value="cd89a72a1c7bc6b2ef2fbad32d14bae9" />
+    <input type="hidden" id="hdf_SE_Controller" value="/Sistema/" />
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+﻿<table style="width:100%;border-collapse:collapse;margin-bottom:10px;">
+    <tr>
+        <td style="width:20%">
+            <img src="data:image/png;base64,@Logo" style="height:58px"/>
+        </td>
+        <td style="width:60%;text-align:center;font-weight:bold"></td>
+        <td style="width:20%;font-weight:bold;"><span style="display:none;">001 N°0036</span></td>
+    </tr>
+    <tr>
+    <td style="width:20%"></td>
+    <td style="width:60%;text-align:center;font-weight:bold;padding:10px 0px;">DECLARATORIA DE ALERGIA</td>
+    <td style="width:20%"></td>
+    </tr>
+</table>
+<div class="form-horizontal">
+	<div class="center" style='text-align:center;margin-bottom:15px;display:none;'>
+        <span style="color:#1c4ca5;text-decoration:underline" >DECLARATORIA DE ALERGIA</span>
+    </div>
+    <div class="col-20" style="margin-top:15px;margin-bottom:15px">
+        <div class="form-group">
+            <label class="col-20 col-sm-20 control-label">
+                <span>¿Presenta el paciente algún tipo de ALERGIA?</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="col-20" style="margin-top:15px;margin-bottom:15px">
+        <div class="form-group">
+            <div class="col-3"></div>
+            <label class="col-7 control-label" style="text-align:center">
+                <span style="padding:10px;border:1px solid;@IndAlergiaSi">SI</span>
+            </label>
+            <label class="col-7 control-label" style="text-align:center">
+                <span style="padding:10px;border:1px solid;@IndAlergiaNo">NO</span>
+            </label>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <div class="col-20" style="margin-top:15px;margin-bottom:15px">
+        <div class="form-group">
+            <label class="col-1 col-sm-1 control-label  ">
+                <span>Yo</span>
+            </label>
+		     <label class="col-19 col-sm-19 control-label  ">
+                <span style="border-bottom: 1px dotted;width:100%;display:inline-block">@Paciente</span>
+            </label>
+        </div>
+    </div>
+    <div class="col-20" style="margin-bottom:30px">
+        <div class="form-group">
+            <label class="col-20 col-sm-20 control-label  ">
+                <span>con @TipoDocumento N°</span><span style="border-bottom: 1px dotted;width:80px;display:inline-block;margin-left:8px;">@NumeroDocumento</span>
+                <span>, declaro presentar reacción alérgica a los siguientes:</span>
+            </label>
+        </div>
+    </div>
+    <div class="col-20" style="margin-bottom:16px;">
+        <div class="form-group">
+            <label class="col-3 col-sm-3 control-label ">
+                <span>Medicamentos</span>
+            </label>
+            <label class="col-17 col-sm-17 control-label ">
+                <span style="border-bottom: 1px dotted;width:100%;display:inline-block">@Medicamentos</span>
+            </label>
+        </div>
+    </div>
+    <div class="col-20" style="margin-bottom:16px;">
+        <div class="form-group">
+            <label class="col-3 col-sm-3 control-label  ">
+                <span>Alimentos</span>
+            </label>
+            <label class="col-17 col-sm-17 control-label  ">
+                <span style="border-bottom: 1px dotted;width:100%;display:inline-block">@Alimentos</span>
+            </label>
+
+        </div>
+    </div>
+    <div class="col-20" style="margin-bottom:16px;">
+        <div class="form-group">
+            <label class="col-3 col-sm-3 control-label  ">
+                <span>Otros</span>
+            </label>
+            <label class="col-17 col-sm-17 control-label  ">
+                <span style="border-bottom: 1px dotted;width:100%;display:inline-block">@Otros</span>
+            </label>
+        </div>
+    </div>
+    <div class="col-20" style="margin-top:30px;">
+        <div class="form-group">
+            <label class="col-20 text-right">
+                <span>@FechaHoraActual</span>
+            </label>
+        </div>
+    </div>
+</div>

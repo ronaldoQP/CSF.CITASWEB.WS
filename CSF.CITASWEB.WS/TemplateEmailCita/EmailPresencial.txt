@@ -1,0 +1,195 @@
+﻿<table id="Tabla_01" style="border-collapse: collapse;" width="600" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tr style="text-align:center;">
+      <td style="padding-bottom: 30px;">
+          <img alt="cabecera" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Cabecera/confirmar-cita_1.jpg" style="width: 100%" />
+      </td>
+  </tr>
+  <tr style="display:none;">
+      <td>
+          <img src="https://sanna.pe/public/Images/ConfirmacionCita/cita_confirmada_banner.jpg" width="600" height="368" alt="">
+      </td>
+  </tr>
+  <tr style="text-align:center;display:none;">
+      <td>
+          <img style="margin:20px;" src="https://softvanperu.com/CSF_CITASWEB/Resources/Images/Logos/logo-clinicasanfelipe.png" alt="Logo CSF">
+      </td>
+  </tr>
+  <tr>
+      <td width="600" height="147" style="padding:0px 10%">
+          <div style="font-size:19px;font-family: Arial, Helvetica, sans-serif;color:#706f6f; margin-top:0px; padding-top: 0px; text-align: left; margin-bottom: 20px;">
+
+              <p style="font-size: 17px; text-align: left; margin-top: 0px; color: #706f6f">
+
+                  <span style="font-size: 29px;"><strong>Hola, {NombrePaciente}</strong></span>
+
+                  <br>
+                  <br>
+                  <strong>¡Gracias por confiar en nosotros! </strong><br>
+                  <br>
+                  Tu cita presencial en <strong style="color: #0043a5">{Clinica}</strong> ha sido reservada con éxito.
+              </p>
+
+          </div>
+
+      </td>
+  </tr>
+  <tr>
+    <td>
+      <table style="border-collapse: collapse;" width="600" height="224" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="width:60%;text-align:center">
+            <!-- <div style="font-size: 15px;font-family: Arial, Helvetica, sans-serif;border-radius: 30px 0px 30px 0px;background-color: #eceaeb;padding: 20px; width: 221px;text-align:left;    display: inline-block;"> -->
+            <div style="font-size: 15px;font-family: Arial, Helvetica, sans-serif;border-radius: 30px 0px 30px 0px;background-color: #eceaeb;padding: 20px; width: 364px;text-align:left;    display: inline-block;">
+              <strong style="color:#706f6f">Fecha de cita </strong><br>
+              <p style="color: #706f6f;margin:0px;margin-bottom: 15px;">{FechaAtencion}</p>
+              <strong style="color:#706f6f">Hora </strong><br>
+              <p style="color: #706f6f;margin:0px;margin-bottom: 15px;">{HoraInicio}</p>
+              <strong style="color:#706f6f">Medico especialista </strong><br>
+              <p style="color: #706f6f;margin:0px;margin-bottom: 15px;">{NombreMedico} - {Especialidad}</p>
+              <strong style="color:#706f6f">Sede </strong><br>
+              <p style="color: #706f6f;margin:0px;margin-bottom: 15px;">{Sede}</p>
+              <strong style="color:#706f6f">Consultorio </strong><br>
+              <p style="color: #706f6f;margin:0px">{Consultorio}</p>
+            </div>
+          </td>
+          <td style="width:40%;padding-left: 15px;display:none;">
+            <a href="{LinkCalendario}">
+              <img src="https://sanna.pe/public/Images/ConfirmacionCita/cita_confirmada_calendario.png" alt="" height="224" border="0">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr @ContenedorBanner@>
+      <td style="padding-top: 20px;">
+           <img src="{URLBanner}" alt="Banner de estacionamiento" border="0" style="display:block;" width="600" height="282" >
+      </td>
+  </tr>
+  <tr @ContenedorLinkPago@>
+      <td style="padding-top: 20px;">
+          <a href="{LinkPago}" target="_blank">
+              <img src="https://sanna.pe/public/Images/ConfirmacionCita/cita_confirmada_link.jpg" alt="" width="600" height="151"  border="0">
+          </a>
+      </td>
+  </tr>
+  <tr>
+      <td width="600" style="padding:0px 70px 0px 70px">
+          <div style="font-size:13px;font-family: Arial, Helvetica, sans-serif;color:#706f6f; margin-top:0px; padding-top: 0px; text-align: justify; padding-bottom: 10px;">
+
+              <p style="font-size: 17px; text-align: center; margin-top: 20px;">
+
+                  <span style="color: #0043a5;"><strong>IMPORTANTE</strong></span>
+              </p>
+
+              <p style="font-size: 17px;">
+
+                  Recuerda que para brindarte la mejor atención debes tomar en cuenta lo siguiente.
+              </p>
+
+              <ul style="font-size: 17px; line-height: 24px; padding-left: 15px;">
+                  <li>
+                      Lleva tu DNI.
+                  </li>
+              </ul>
+          </div>
+      </td>
+  </tr>
+  <tr>
+    <td width="600" height="81" bgcolor="#ecebeb" style="padding:0px 70px 0px 70px;background-color:#ecebeb">
+      <div style="font-size:19px;font-family: Arial, Helvetica, sans-serif;color:#706f6f; margin-top:20px; padding-top: 0px; text-align: justify; margin-bottom: 20px;">
+        <p style="font-size: 17px; text-align: justify; margin-top: 0px; color: #706f6f">
+          <strong style="color: #0043a5;">Si no puedes asistir a tu cita</strong>, infórmanos y así podemos seguir cuidando a otras personas.
+        </p>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td style="background-color:#ecebeb">
+      <a href="https://citaweb.clinicasanfelipe.com/CSF_CITAS/" target="_blank">
+        <img src="https://sanna.pe/public/Images/ConfirmacionCita/cita_confirmada_reprogramar.jpg" alt="" width="600" height="65" usemap="#Map2" border="0">
+      </a>
+    </td>
+  </tr>
+  <tr style="display:none;">
+    <td>
+      <img src="https://sanna.pe/public/Images/ConfirmacionCita/cita_confirmada_footer.jpg" alt="" width="600" height="85" usemap="#Map" border="0">
+    </td>
+  </tr>
+  <tr>
+      <td style="padding-top: 30px;">
+        <div style="text-align: center; background-color: #0143a4; color: #FFFFFF">
+          <div>
+              <img alt="clinicaSfTeCuida" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Pie/te_cuida.jpg" style="width: 100%" />
+          </div>
+          <div style="padding: 30px 8% 30px 8%;">
+              <table style="width: 100%; font-size: 12px">
+                  <colgroup>
+                      <col style="width:38%" />
+                      <col style="width:38%" />
+                      <col style="width:24%" />
+                  </colgroup>
+                  <thead>
+                      <tr style="text-align:center;">
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                              <div>
+                                  <a target="_blank" href="https://www.clinicasanfelipe.com/" style="text-decoration: none; color: #FFFFFF;">
+                                      <div style="float:left">
+                                          <img title="World" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Iconos/internet.png" alt="World" height="23" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                      </div>
+                                      <div style="float: left; margin: 4px 0px 4px 8px;">clinicasanfelipe.com</div>
+                                  </a>
+                              </div>
+                          </td>
+                          <td>
+                              <div>
+                                  <a target="_blank" href="https://www.instagram.com/clinicasanfelipeperu/?hl=es" style="text-decoration: none; color: #FFFFFF;">
+                                      <div style="float:left">
+                                          <img title="Instagram" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Iconos/instagram_v2.png" alt="Inst" height="23" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                      </div>
+                                      <div style="float: left; margin: 4px 0px 4px 8px;">@clinicasanfelipeperu</div>
+                                  </a>
+                              </div>
+                          </td>
+                          <td rowspan="2">
+                              <div>
+                                  <img alt="LogoClinicaSF2" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Iconos/san_felipe_logo_white.jpg" style="width: 100%" />
+                              </div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="margin-top: 5px;">
+                                  <a target="_blank" href="tel:012190000" style="text-decoration: none; color: #FFFFFF;">
+                                      <div style="float:left">
+                                          <img title="Phone" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Iconos/telefono_v2.png" alt="Phone" height="23" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                      </div>
+                                      <div style="float: left; margin: 4px 0px 4px 8px;">012190000</div>
+                                  </a>
+                              </div>
+                          </td>
+                          <td>
+                              <div style="margin-top: 5px;">
+                                  <a target="_blank" href="https://es-la.facebook.com/clinicasanfelipe/" style="text-decoration: none; color: #FFFFFF; ">
+                                      <div style="float:left">
+                                          <img title="Facebook" src="https://apicitas.clinicasanfelipe.com/CSF_CITASWEB_WS/Images/Correo/Iconos/facebook_v2.png" alt="Fb" height="23" style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic">
+                                      </div>
+                                      <div style="float: left; margin: 4px 0px 4px 8px;"> /clinicasanfelipe</div>
+                                  </a>
+                              </div>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+    </td>
+  </tr>
+</table>

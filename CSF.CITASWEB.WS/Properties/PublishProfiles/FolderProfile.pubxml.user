@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Este archivo se usa en el proceso de publicación y empaquetado del proyecto web. Para personalizar el comportamiento de este proceso,
+edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 para obtener más información. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\Despliegues\CSF\CITASWEB_WS</_PublishTargetUrl>
+    <History>True|2025-01-14T22:09:39.6126737Z;True|2025-01-14T09:15:13.6867540-05:00;True|2025-01-13T14:00:28.8283839-05:00;True|2025-01-13T13:54:18.5560599-05:00;True|2025-01-13T10:24:11.5739341-05:00;True|2025-01-13T10:12:40.7510866-05:00;True|2025-01-02T15:45:45.4113748-05:00;True|2025-01-02T11:35:57.5270389-05:00;True|2025-01-02T11:30:43.8007680-05:00;True|2024-12-31T19:20:24.7801235-05:00;True|2024-12-31T14:46:31.3379269-05:00;True|2024-12-31T09:19:40.5847067-05:00;True|2024-12-20T10:58:35.3402235-05:00;True|2022-09-22T17:22:20.5040258-05:00;True|2022-09-22T15:07:30.5894541-05:00;True|2022-09-22T13:01:19.9270424-05:00;True|2022-09-22T12:58:40.9582806-05:00;True|2022-09-22T12:44:02.6580225-05:00;True|2022-09-22T12:31:43.7942005-05:00;True|2022-09-22T12:12:57.7463286-05:00;True|2022-09-22T10:41:02.5835775-05:00;True|2022-09-22T10:37:32.2729398-05:00;True|2022-09-22T10:33:16.6079812-05:00;True|2022-09-21T16:05:59.1840937-05:00;True|2022-09-21T10:44:24.8057402-05:00;True|2022-09-20T16:36:36.4037477-05:00;True|2022-09-20T16:34:27.8945190-05:00;True|2022-09-20T16:24:54.9302408-05:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Agendas/ini.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.BE.dll">
+      <publishTime>01/14/2025 17:31:12</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.BE.pdb">
+      <publishTime>01/14/2025 17:31:12</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.DA.dll">
+      <publishTime>01/14/2025 17:31:12</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.DA.pdb">
+      <publishTime>01/14/2025 17:31:12</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.dll">
+      <publishTime>01/14/2025 18:55:34</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.pdb">
+      <publishTime>01/14/2025 18:55:34</publishTime>
+    </File>
+    <File Include="bin/CSF.CITASWEB.WS.XmlSerializers.dll">
+      <publishTime>01/14/2025 18:55:35</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.pdb">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/JWT.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/NReco.PdfGenerator.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="bin/Twilio.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Cita.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="ClinicasEspecialidades.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.DangAmbigs">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.freq-dawg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.inttemp">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.normproto">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.pffmtable">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.unicharset">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.user-words">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Content/tessdata/eng.word-dawg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="DataSITEDS/lstEstado.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="DataSITEDS/lstParentesco.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="DataSITEDS/lstProductos.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Horario.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Hospitalizacion.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Banner/estacionamiento.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/clave-otp.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/confirmar-cita.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/confirmar-cita_1.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/confirmar-pago.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/crear-cuenta.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/recupera-tu-contrasenia.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Cabecera/reserva-cita-procedimiento.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Iconos/facebook_v2.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Iconos/instagram_v2.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Iconos/internet.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Iconos/san_felipe_logo_white.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Iconos/telefono_v2.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Correo/Pie/te_cuida.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Especialidades/default.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Flyer/PopSedelaMolina.jpg">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-hoja-de-ruta.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-home-accesos-01-roe-v2.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-home-accesos-01-roe.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-home-accesos-02-contactate.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-info-flag-reniec.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Icons/ico-receta.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/anterior.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/chip.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/contacto-nfc.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/eliminar.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/logo.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Iconos/siguiente.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/Tarjetas/1.jpg">
+      <publishTime>01/09/2025 12:21:51</publishTime>
+    </File>
+    <File Include="Images/Izipay/Tarjetas/2.jpg">
+      <publishTime>01/09/2025 12:22:34</publishTime>
+    </File>
+    <File Include="Images/Izipay/Tarjetas/3.jpg">
+      <publishTime>01/09/2025 12:22:30</publishTime>
+    </File>
+    <File Include="Images/Izipay/Tarjetas/4.jpg">
+      <publishTime>01/09/2025 12:22:25</publishTime>
+    </File>
+    <File Include="Images/Izipay/Tarjetas/5.jpg">
+      <publishTime>01/09/2025 12:22:21</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/AE.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/DN.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/edenred.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/MC.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/unionpay.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/Izipay/TipoTarjeta/VS.svg">
+      <publishTime>10/18/2024 11:30:58</publishTime>
+    </File>
+    <File Include="Images/receta.pdf">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/sanna_logo.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Medicos/ini.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Medicos/medico-f.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Medicos/medico-m.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Usuarios/ini.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Usuarios/user-hombre-azul.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Usuarios/user-hombre-gris.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Usuarios/user-mujer-azul.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Uploads/Usuarios/user-mujer-gris.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/Usuario/ini.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Images/_.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="index.aspx">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Librerias/itextsharp.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Librerias/NReco.PdfGenerator.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Librerias/Twilio.dll">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Medico.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Parametrizacion.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Procedimiento.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Logos/clinicasanfelipe.png">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/PDF/Hospitalizacion/ini.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Styles/01_Base/03_Align.css">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Styles/01_Base/05_Columns.css">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Styles/01_Base/06_Forms.css">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Styles/01_Base/08_Panel.css">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Styles/02_Directives/Table.css">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Templates/TextoPDF/Hospitalizacion/ContactoResponsable.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Templates/TextoPDF/Hospitalizacion/ContactosAdicionales.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Templates/TextoPDF/Hospitalizacion/DeclaratoriaAlergia.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Templates/TextoPDF/Hospitalizacion/MedicacionRiesgo.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Resources/Templates/TextoPDF/Hospitalizacion/Terminos.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Scripts/Servicio.js">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="TemplateEmailCita/EmailPresencial.txt">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Usuario.svc">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="validacionServicios.html">
+      <publishTime>01/13/2025 11:35:46</publishTime>
+    </File>
+    <File Include="Web References/wsprecisa/CEAtenciones1.datasource">
+      <publishTime>12/12/2024 17:22:38</publishTime>
+    </File>
+    <File Include="Web References/wsprecisa/CERetorno1.datasource">
+      <publishTime>12/12/2024 17:22:38</publishTime>
+    </File>
+    <File Include="Web References/wsprecisa/Reference.map">
+      <publishTime>12/12/2024 16:25:25</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>01/13/2025 10:12:40</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

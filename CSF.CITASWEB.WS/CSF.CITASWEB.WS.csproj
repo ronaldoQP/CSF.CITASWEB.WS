@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{733625F8-A2DF-458B-A420-43EF4BB4CC81}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CSF.CITASWEB.WS</RootNamespace>
+    <AssemblyName>CSF.CITASWEB.WS</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress>
+    </Use64BitIISExpress>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotNetEnv, Version=3.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Librerias\DotNetEnv\DotNetEnv.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.65.0\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.65.0\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.65.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.FirebaseCloudMessaging.v1, Version=1.65.0.3098, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.FirebaseCloudMessaging.v1.1.65.0.3098\lib\net45\Google.Apis.FirebaseCloudMessaging.v1.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.30\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Librerias\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.1.3.4\lib\3.5\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.PdfGenerator, Version=1.1.12.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Librerias\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Twilio, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Librerias\Twilio.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Agendas\ini.txt" />
+    <Content Include="Cita.svc" />
+    <Content Include="ClinicasEspecialidades.svc" />
+    <Content Include="DataSITEDS\lstEstado.txt" />
+    <Content Include="DataSITEDS\lstParentesco.txt" />
+    <Content Include="DataSITEDS\lstProductos.txt" />
+    <Content Include="Global.asax" />
+    <Content Include="Horario.svc" />
+    <Content Include="Images\Banner\estacionamiento.jpg" />
+    <Content Include="Hospitalizacion.svc" />
+    <Content Include="Images\Correo\Cabecera\clave-otp.jpg" />
+    <Content Include="Images\Correo\Cabecera\confirmar-cita.jpg" />
+    <Content Include="Images\Correo\Cabecera\confirmar-cita_1.jpg" />
+    <Content Include="Images\Correo\Cabecera\confirmar-pago.jpg" />
+    <Content Include="Images\Correo\Cabecera\crear-cuenta.jpg" />
+    <Content Include="Images\Correo\Cabecera\recupera-tu-contrasenia.jpg" />
+    <Content Include="Images\Correo\Cabecera\reserva-cita-procedimiento.jpg" />
+    <Content Include="Images\Correo\Iconos\facebook_v2.png" />
+    <Content Include="Images\Correo\Iconos\instagram_v2.png" />
+    <Content Include="Images\Correo\Iconos\internet.png" />
+    <Content Include="Images\Correo\Iconos\san_felipe_logo_white.jpg" />
+    <Content Include="Images\Correo\Iconos\telefono_v2.png" />
+    <Content Include="Images\Correo\Pie\te_cuida.jpg" />
+    <Content Include="Images\Especialidades\default.png" />
+    <Content Include="Images\Flyer\PopSedelaMolina.jpg" />
+    <Content Include="Images\Icons\ico-hoja-de-ruta.png" />
+    <Content Include="Images\Icons\ico-home-accesos-01-roe-v2.png" />
+    <Content Include="Images\Icons\ico-home-accesos-01-roe.png" />
+    <Content Include="Images\Icons\ico-home-accesos-02-contactate.png" />
+    <Content Include="Images\Icons\ico-info-flag-reniec.png" />
+    <Content Include="Images\Icons\ico-receta.png" />
+    <Content Include="Images\Izipay\Iconos\anterior.svg" />
+    <Content Include="Images\Izipay\Iconos\chip.svg" />
+    <Content Include="Images\Izipay\Iconos\contacto-nfc.svg" />
+    <Content Include="Images\Izipay\Iconos\eliminar.svg" />
+    <Content Include="Images\Izipay\Iconos\logo.svg" />
+    <Content Include="Images\Izipay\Iconos\siguiente.svg" />
+    <Content Include="Images\Izipay\Tarjetas\1.jpg" />
+    <Content Include="Images\Izipay\Tarjetas\2.jpg" />
+    <Content Include="Images\Izipay\Tarjetas\3.jpg" />
+    <Content Include="Images\Izipay\Tarjetas\4.jpg" />
+    <Content Include="Images\Izipay\Tarjetas\5.jpg" />
+    <Content Include="Images\Izipay\TipoTarjeta\AE.svg" />
+    <Content Include="Images\Izipay\TipoTarjeta\DN.svg" />
+    <Content Include="Images\Izipay\TipoTarjeta\edenred.svg" />
+    <Content Include="Images\Izipay\TipoTarjeta\MC.svg" />
+    <Content Include="Images\Izipay\TipoTarjeta\unionpay.svg" />
+    <Content Include="Images\Izipay\TipoTarjeta\VS.svg" />
+    <Content Include="Images\PopUp\pop-up-20250207-v1.jpg" />
+    <Content Include="Images\sanna_logo.png" />
+    <Content Include="Images\Uploads\Medicos\ini.txt" />
+    <Content Include="Images\Uploads\Medicos\medico-f.png" />
+    <Content Include="Images\Uploads\Medicos\medico-m.png" />
+    <Content Include="Images\Uploads\Usuarios\ini.txt" />
+    <Content Include="Images\Uploads\Usuarios\user-hombre-azul.png" />
+    <Content Include="Images\Uploads\Usuarios\user-hombre-gris.png" />
+    <Content Include="Images\Uploads\Usuarios\user-mujer-azul.png" />
+    <Content Include="Images\Uploads\Usuarios\user-mujer-gris.png" />
+    <Content Include="Images\Usuario\ini.txt" />
+    <Content Include="Images\_.png" />
+    <Content Include="Librerias\DotNetEnv\DotNetEnv.dll" />
+    <Content Include="Librerias\DotNetEnv\Readme.txt" />
+    <Content Include="Librerias\DotNetEnv\Sprache.dll" />
+    <Content Include="Librerias\itextsharp.dll" />
+    <Content Include="Librerias\NReco.PdfGenerator.dll" />
+    <Content Include="Librerias\Twilio.dll" />
+    <Content Include="Medico.svc" />
+    <Content Include="Parametrizacion.svc" />
+    <Content Include="index.aspx" />
+    <Content Include="Procedimiento.svc" />
+    <Content Include="Resources\Logos\clinicasanfelipe.png" />
+    <Content Include="Resources\PDF\Hospitalizacion\ini.txt" />
+    <Content Include="Resources\Styles\01_Base\03_Align.css" />
+    <Content Include="Resources\Styles\01_Base\05_Columns.css" />
+    <Content Include="Resources\Styles\01_Base\06_Forms.css" />
+    <Content Include="Resources\Styles\01_Base\08_Panel.css" />
+    <Content Include="Resources\Styles\02_Directives\Table.css" />
+    <Content Include="Resources\Templates\TextoPDF\Hospitalizacion\ContactoResponsable.txt" />
+    <Content Include="Resources\Templates\TextoPDF\Hospitalizacion\ContactosAdicionales.txt" />
+    <Content Include="Resources\Templates\TextoPDF\Hospitalizacion\DeclaratoriaAlergia.txt" />
+    <Content Include="Resources\Templates\TextoPDF\Hospitalizacion\MedicacionRiesgo.txt" />
+    <Content Include="Resources\Templates\TextoPDF\Hospitalizacion\Terminos.txt" />
+    <Content Include="Scripts\Servicio.js" />
+    <Content Include="TemplateEmailCita\EmailPresencial.txt" />
+    <Content Include="Usuario.svc" />
+    <Content Include="validacionServicios.html" />
+    <Content Include="Images\receta.pdf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Web References\wsprecisa\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Web References\wsprecisa\CEAtenciones1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\wsprecisa\CERetorno1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <None Include="Web References\wsprecisa\SrvResultados.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="Web References\wsprecisa\SrvResultados.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cita.svc.cs">
+      <DependentUpon>Cita.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\CifradoAES256.cs" />
+    <Compile Include="Clases\ClasesGenericas.cs" />
+    <Compile Include="Clases\DocumentPDF.cs" />
+    <Compile Include="Clases\HtmlToPdf.cs" />
+    <Compile Include="Clases\RollingXmlWriterTraceListener.cs" />
+    <Compile Include="Clases\ServicioRestBE.cs" />
+    <Compile Include="ClinicasEspecialidades.svc.cs">
+      <DependentUpon>ClinicasEspecialidades.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Horario.svc.cs">
+      <DependentUpon>Horario.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Hospitalizacion.svc.cs">
+      <DependentUpon>Hospitalizacion.svc</DependentUpon>
+    </Compile>
+    <Compile Include="ICita.cs" />
+    <Compile Include="IClinicasEspecialidades.cs" />
+    <Compile Include="IHorario.cs" />
+    <Compile Include="IHospitalizacion.cs" />
+    <Compile Include="IMedico.cs" />
+    <Compile Include="IParametrizacion.cs" />
+    <Compile Include="IProcedimiento.cs" />
+    <Compile Include="IUsuario.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Medico.svc.cs">
+      <DependentUpon>Medico.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Ocr.cs" />
+    <Compile Include="Parametrizacion.svc.cs">
+      <DependentUpon>Parametrizacion.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Procedimiento.svc.cs">
+      <DependentUpon>Procedimiento.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Clases\RestAuthorizationManager.cs" />
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Usuario.svc.cs">
+      <DependentUpon>Usuario.svc</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web References\wsprecisa\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\tessdata\eng.word-dawg" />
+    <Content Include="Content\tessdata\eng.user-words" />
+    <Content Include="Content\tessdata\eng.unicharset" />
+    <Content Include="Content\tessdata\eng.pffmtable" />
+    <Content Include="Content\tessdata\eng.normproto" />
+    <Content Include="Content\tessdata\eng.inttemp" />
+    <Content Include="Content\tessdata\eng.freq-dawg" />
+    <Content Include="Content\tessdata\eng.DangAmbigs" />
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://precisa.pe/serviciosprecisa/SrvResultados.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsprecisa\</RelPath>
+      <UpdateFromURL>https://precisa.pe/serviciosprecisa/SrvResultados.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>eureka_SanaWS_wsprecisa_Service1</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSF.CITASWEB.WS.BE\CSF.CITASWEB.WS.BE.csproj">
+      <Project>{b9399a8b-7219-4b44-8836-901907246865}</Project>
+      <Name>CSF.CITASWEB.WS.BE</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57651</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:57657/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets" Condition="Exists('..\packages\MSBuild.NugetContentRestore.0.1.6\build\net40\MSBuild.NugetContentRestore.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="CSF.CITASWEB.WS.Parametrizacion" CodeBehind="Parametrizacion.svc.cs" %>
